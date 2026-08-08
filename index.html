@@ -1,20 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de CEP</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="clock.js"></script>
+  <script>
+    if (!sessionStorage.getItem('splashExibido')) {
+      window.location.replace('loading.html');
+    }
+  </script>
 </head>
 <body>
-  
+  <div class="luzes">
+    <div class="luz luz-1"></div>
+    <div class="luz luz-2"></div>
+    <div class="luz luz-3"></div>
+    <div class="luz luz-4"></div>
+  </div>
+  <div class="nav-time-container">
+    <span class="nav-time" id="brasilia-clock">00:00</span>
+  </div>
   <main class="container">
     <section class="card">
-      <div class="icone">☁️</div>
       <p class="etiqueta">Computação em Nuvem</p>
-      <h1>Consulta de CEP</h1>
+      <h1>Consulta de CEP e Clima</h1>
       <p class="descricao">
-        Digite um CEP para buscar o endereço utilizando a API ViaCEP.
+        Digite um CEP para buscar o endereço.
       </p>
 
       <form id="formCep">
@@ -37,7 +51,7 @@
 
       <section id="resultado" class="resultado oculto">
         <h2>Endereço encontrado</h2>
-
+<br>
         <div class="dados">
           <div class="dado dado-maior">
             <span>Logradouro</span>
@@ -59,11 +73,70 @@
             <strong id="estado">-</strong>
           </div>
 
-          <div class="dado">
+<div class="dado">
             <span>DDD</span>
             <strong id="ddd">-</strong>
           </div>
         </div>
+
+        <h2 class="clima-titulo">Clima na cidade</h2>
+        <div id="wf-weather-result" class="clima">
+          <h1 id="wf-location-title">-</h1>
+          <div id="wf-details-wrapper">
+<div id="wf-main-temp">
+              <video id="wf-temp-video" autoplay muted loop playsinline>
+                <source src="video/Nublado/14262265_3840_2160_30fps.mp4" type="video/mp4">
+              </video>
+              <video id="wf-temp-video-chuva" autoplay muted loop playsinline>
+                <source src="video/Chuva leve/3920803-hd_1920_1080_30fps.mp4" type="video/mp4">
+              </video>
+              <video id="wf-temp-video-ceu-limpo" autoplay muted loop playsinline>
+                <source src="video/Céu Limpo/5727666-hd_1920_1080_30fps.mp4" type="video/mp4">
+              </video>
+              <video id="wf-temp-video-poucas" autoplay muted loop playsinline>
+                <source src="video/Poucas nuvens/2252790-hd_1920_1080_30fps.mp4" type="video/mp4">
+              </video>
+              <video id="wf-temp-video-pancadas" autoplay muted loop playsinline>
+                <source src="video/Pancadas de chuva/11933681-uhd_3840_2160_30fps.mp4" type="video/mp4">
+              </video>
+              <img id="wf-temp-icon" src="" alt="Ícone do tempo">
+              <div>
+                <p id="wf-temp-now">--</p>
+                <p id="wf-description">--</p>
+              </div>
+            </div>
+            <div id="wf-extra-stats">
+              <div class="wf-stat-item">
+                <i class="fa-solid fa-temperature-high" id="wf-icon-max"></i>
+                <div>
+                  <h2>Temp. máx</h2>
+                  <p id="wf-temp-max">--</p>
+                </div>
+              </div>
+              <div class="wf-stat-item">
+                <i class="fa-solid fa-temperature-low" id="wf-icon-min"></i>
+                <div>
+                  <h2>Temp. mín</h2>
+                  <p id="wf-temp-min">--</p>
+                </div>
+              </div>
+              <div class="wf-stat-item">
+                <i class="fa-solid fa-droplet" id="wf-icon-humidity"></i>
+                <div>
+                  <h2>Humidade</h2>
+                  <p id="wf-humidity-val">--</p>
+                </div>
+              </div>
+              <div class="wf-stat-item">
+                <i class="fa-solid fa-wind" id="wf-icon-wind"></i>
+                <div>
+                  <h2>Vento</h2>
+                  <p id="wf-wind-val">--</p>
+                </div>
+              </div>
+            </div>
+          </div>
+</div>
       </section>
     </section>
   </main>

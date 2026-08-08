@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carregando...</title>
+  <link rel="stylesheet" href="loading.css">
+</head>
+<body>
+  <div class="luzes">
+    <div class="luz luz-1"></div>
+    <div class="luz luz-2"></div>
+    <div class="luz luz-3"></div>
+    <div class="luz luz-4"></div>
+  </div>
+  <div class="splash">
+    <div class="div-svg">
+      <svg viewBox="0 0 1000 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="meuGradiente" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#36d0ff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00e5ff;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M 50 240 C 120 0, 250 50, 200 250 C 160 400, 300 480, 370 250 C 420 80, 520 80, 480 250 C 450 400, 580 450, 630 250 C 680 80, 760 80, 730 250 C 690 480, 850 520, 950 140"
+          stroke="url(#meuGradiente)"
+          stroke-width="16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <p class="titulo">Consulta de CEP e Clima</p>
+    <p class="subtitulo">Computação em Nuvem</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js"></script>
+  <script>
+    gsap.registerPlugin(DrawSVGPlugin);
+
+    const svgPath = document.querySelector('.div-svg path');
+    const titulo = document.querySelector('.titulo');
+    const subtitulo = document.querySelector('.subtitulo');
+
+    gsap.set(svgPath, { drawSVG: "0%", strokeWidth: 2 });
+
+    const timeline = gsap.timeline();
+
+    timeline
+      .to(svgPath, {
+        duration: 2,
+        drawSVG: "100%",
+        strokeWidth: 16,
+        ease: "power2.inOut"
+      })
+      .to(svgPath, {
+        duration: 0.6,
+        opacity: 0.2,
+        ease: "power1.in"
+      }, "-=0.2")
+      .fromTo(titulo, { opacity: 0, y: 20 }, {
+        duration: 0.6,
+        opacity: 1,
+        y: 0,
+        ease: "power2.out"
+      }, "-=0.3")
+      .fromTo(subtitulo, { opacity: 0, y: 10 }, {
+        duration: 0.5,
+        opacity: 0.7,
+        y: 0,
+        ease: "power2.out"
+      }, "-=0.3")
+      .to('.splash', {
+        duration: 0.6,
+        opacity: 0,
+        ease: "power1.inOut"
+      });
+
+    timeline.eventCallback('onComplete', () => {
+      sessionStorage.setItem('splashExibido', '1');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
