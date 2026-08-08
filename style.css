@@ -7,7 +7,7 @@
 :root {
   --bg1: #04101d;
   --bg2: #0d3355;
-  --card: rgba(8, 25, 44, .78);
+  --card: rgba(8, 25, 44, 0.425);
   --border: rgba(100, 216, 255, .18);
   --primary: #36d0ff;
   --primary-hover: #67ddff;
