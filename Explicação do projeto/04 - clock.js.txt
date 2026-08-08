@@ -1,0 +1,40 @@
+=========================================================
+clock.js - relógio de Brasília
+=========================================================
+
+function atualizarRelogio() {
+    const relogio = document.getElementById('brasilia-clock');
+    if (relogio) {
+        relogio.textContent = new Intl.DateTimeFormat('pt-BR', {
+            hour: '2-digit', minute: '2-digit',
+            hour12: false, timeZone: 'America/Sao_Paulo'
+        }).format(new Date());
+    }
+}
+
+setInterval(atualizarRelogio, 1000);
+atualizarRelogio();
+
+- pego o elemento pelo id (o <span> no topo).
+- if(relogio): se não existir na página, não quebra. Isso
+  importa porque esse script é carregado no index.html, mas
+  a lógica é reutilizável.
+
+O PONTO QUE EU ACHO INTERESSANTE AQUI
+=====================================
+Uso o Intl.DateTimeFormat com timeZone: 'America/Sao_Paulo'.
+Ou seja: a hora exibida NÃO depende do relógio do computador
+do usuário, e sim do fuso do Brasil. Se alguém abre o site de
+outro país, mostra a hora de Brasília mesmo assim.
+
+- hour12:false => formato 24h (13:05, e não 01:05 PM).
+- setInterval(..., 1000) atualiza a cada 1 segundo.
+- chamo a função 1x antes do interval pra não ficar "00:00"
+  (o placeholder do HTML) durante o primeiro segundo.
+
+Por que um arquivo separado?
+============================
+Porque senão ia misturar lógica do relógio com lógica de CEP/clima
+no script.js. Deixar separado é mais limpo (aprendizado de
+separação de responsabilidades, mesmo em JS puro).
+

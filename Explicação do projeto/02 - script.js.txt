@@ -1,0 +1,198 @@
+=========================================================
+script.js - o cérebro do projeto
+=========================================================
+
+Referências (querySelector)
+===========================
+Pego os elementos do DOM que vou usar. Nada demais.
+
+FORMATAÇÃO DO CEP (enquanto digita)
+===================================
+inputCep.addEventListener('input', () => {
+  let cep = inputCep.value.replace(/\D/g, '');
+  if (cep.length > 5) {
+    cep = `${cep.slice(0, 5)}-${cep.slice(5, 8)}`;
+  }
+  inputCep.value = cep;
+});
+
+- replace(/\D/g, '') tira tudo que não é número (evita que o
+  cara digite letra).
+- Quando passa de 5 digitos aplica o hifen: 99999-999.
+- Achei melhor formatar no 'input' (a cada tecla) do que no
+  submit, senão o usuário não vê o hifen entrando.
+
+VALIDANDO O ENVIO
+=================
+formCep.addEventListener('submit', async (evento) => {
+  evento.preventDefault();
+  const cep = inputCep.value.replace(/\D/g, '');
+  mensagem.innerText = '';
+  resultado.classList.add('oculto');
+
+  if (cep.length !== 8) {
+    mensagem.innerText = 'Digite um CEP válido com 8 números.';
+    inputCep.focus();
+    return;
+  }
+
+- preventDefault: se eu deixar, o form recarrega a página e
+  perco tudo. Então bloqueio e trato via JS.
+- Limpo a mensagem antiga e escondo o resultado anterior pra
+  não ficar "endereço velho" na tela enquanto carrega.
+- Valido 8 números antes de gastar request.
+- inputCep.focus() devolve o cursor pro campo.
+
+CONSULTA VIA CEP
+================
+try {
+  botaoBuscar.disabled = true;
+  botaoBuscar.innerText = 'Buscando...';
+  mensagem.innerText = 'Consultando a API ViaCEP...';
+
+  const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+  if (!resposta.ok) {
+    throw new Error('Não foi possível consultar o serviço.');
+  }
+  const endereco = await resposta.json();
+  if (endereco.erro) {
+    mensagem.innerText = 'CEP não encontrado.';
+    return;
+  }
+
+- Desabilito o botão e mudo o texto pra evitar requisição
+  duplicada enquanto espera.
+- fetch faz a request, await espera.
+- O ViaCEP usa a convenção: qdo não acha, retorna
+  {"erro": true} com status 200. Então tem 2 verificações:
+  !resposta.ok (problema de rede/serviço) e endereco.erro
+  (CEP inexistente). São coisas diferentes e eu trato as duas.
+
+PREENCHENDO O ENDEREÇO
+======================
+  logradouro.innerText = endereco.logradouro || 'Não informado';
+  bairro.innerText = endereco.bairro || 'Não informado';
+  cidade.innerText = endereco.localidade || 'Não informado';
+  estado.innerText = endereco.uf || 'Não informado';
+  ddd.innerText = endereco.ddd || 'Não informado';
+
+  mensagem.innerText = 'Consulta realizada com sucesso!';
+  resultado.classList.remove('oculto');
+
+  if (endereco.localidade) {
+    buscarClima(endereco.localidade, endereco.uf);
+  }
+
+- Nota: o ViaCEP chama a cidade de "localidade" e o estado de
+  "uf". Não é nome que eu escolhi, é o nome do campo da API.
+- O || 'Não informado' cobre campo vazio (ex: CEP que não tem
+  bairro preenchido).
+- Só busco o clima se veio a cidade (senão não tem o que
+  pesquisar).
+
+CATCH / FINALLY
+===============
+} catch (erro) {
+  console.error(erro);
+  mensagem.innerText = 'Erro ao consultar o CEP. Verifique a
+                         internet e tente novamente.';
+} finally {
+  botaoBuscar.disabled = false;
+  botaoBuscar.innerText = 'Buscar';
+}
+
+- catch captura qualquer erro do try (rede, JSON quebrado etc).
+- finally roda sempre, tanto no sucesso quanto no erro -> garante
+  que o botão volta ao normal e nunca fica preso em "Buscando...".
+
+PARTE DO CLIMA
+==============
+const climaApiKey = '8a60b2de14f7a17c7a11706b2cfcd87c';
+
+async function buscarClima(cidade, uf) {
+  const apiUrl =
+    `https://api.openweathermap.org/data/2.5/weather?q=
+     ${encodeURIComponent(cidade)},BR&appid=${climaApiKey}
+     &units=metric&lang=pt_br`;
+
+  const resposta = await fetch(apiUrl);
+  const json = await resposta.json();
+
+  if (json.cod === 200) {
+    wfLocation.innerText = `${json.name}, ${uf || json.sys.country}`;
+    wfTempNow.innerHTML = `${Math.round(json.main.temp)}&deg;C`;
+    wfDescription.innerText = json.weather[0].description;
+    wfTempIcon.src =
+      `https://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`;
+    wfTempMax.innerHTML = `${Math.round(json.main.temp_max)}&deg;C`;
+    wfTempMin.innerHTML = `${Math.round(json.main.temp_min)}&deg;C`;
+    wfHumidity.innerText = `${json.main.humidity}%`;
+    wfWind.innerText = `${json.wind.speed.toFixed(1)} km/h`;
+
+- lang=pt_br faz a descrição vir em português.
+- units=metric pra temperatura em Celsius (senão vem Kelvin).
+- encodeURIComponent(cidade): o nome da cidade pode ter espaço/acento
+  (cidade brasileira tem muito isso), e isso quebraria a URL.
+- json.cod === 200 é o padrão HTTP de sucesso.
+- json.weather[0] é um array, sempre pego o primeiro (é o atual).
+- .toFixed(1) deixa a velocidade do vento com 1 casa.
+
+ESCOLHENDO O VÍDEO PELO CLIMA
+=============================
+    const icone = json.weather[0].icon;
+    const descricao = (json.weather[0].description || '').toLowerCase();
+
+    wfMainTemp.classList.remove(
+      'video-nublado','video-chuva','video-ceu-limpo',
+      'video-poucas','video-pancadas'
+    );
+
+    if (descricao.includes('chuva leve') || descricao.includes('light rain')) {
+      wfMainTemp.classList.add('video-chuva');
+    } else if (icone.startsWith('09') ||
+               descricao.includes('pancadas de chuva') ||
+               descricao.includes('shower rain')) {
+      wfMainTemp.classList.add('video-pancadas');
+    } else if (icone.startsWith('03') || icone.startsWith('04')) {
+      wfMainTemp.classList.add('video-nublado');
+    } else if (icone.startsWith('02') ||
+               descricao.includes('poucas nuvens') ||
+               descricao.includes('few clouds')) {
+      wfMainTemp.classList.add('video-poucas');
+    } else if (icone.startsWith('01') ||
+               descricao.includes('céu limpo') ||
+               descricao.includes('clear sky')) {
+      wfMainTemp.classList.add('video-ceu-limpo');
+    }
+
+- icone é tipo "04d" (04 = condição, d = dia). d de "day", n de "night".
+- Primeiro removo TODAS as classes de vídeo. Se eu não fizesse,
+  numa segunda busca podia acumular e mostrar 2 vídeos juntos.
+- Lógica por condição:
+  01 -> céu limpo
+  02 -> poucas nuvens
+  03/04 -> nublado
+  09 -> pancadas de chuva
+  10 + descricao "chuva leve" ou "light rain" -> chuva (o código 10
+       cobre chuva forte e leve, por isso leio a descrição pra separar)
+- Uso startsWith pra variação dia/noite (03d/03n) e includes pra
+  descrição (acho mais seguro que bancar só no código, porque a API
+  às vezes devolve a descrição em inglês dependendo da config).
+
+- Cada classe no CSS mostra um <video> específico (display:block).
+  Não é o JS que manipula o video direto, é o CSS. Fica mais
+  organizado e eu não repito lógica.
+
+FINAL
+=====
+    weatherResult.classList.add('show');
+  } else {
+    wfTempNow.innerText = 'Indisponível';
+    wfDescription.innerText = 'Clima não encontrado';
+    weatherResult.classList.add('show');
+  }
+
+- weatherResult começa display:none (CSS), e a classe show liga.
+- O else cobre cod != 200 e o catch pega erro de rede - em ambos
+  mostro o card com mensagem de erro em vez de deixar em branco.
+

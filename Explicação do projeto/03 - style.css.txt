@@ -1,0 +1,177 @@
+=========================================================
+style.css - o visual
+=========================================================
+
+Aqui destaco as partes que tiveram decisão/truque, não o
+básico de CSS que a gente já viu em aula.
+
+VARIÁVEIS (:root)
+=================
+:root { --bg1: #04101d; --bg2: #0d3355; ... }
+
+- Uso variáveis de cor pra não repetir o código hex por aí.
+- Se eu quiser mudar a paleta inteira, mudo em UM lugar.
+- Os nomes começam com -- (custom property do CSS).
+
+BODY / FUNDO
+============
+body { background: linear-gradient(135deg, var(--bg1), var(--bg2));
+       display: flex; justify-content: center; align-items: center; }
+
+- fundo em degradê diagonal (135deg).
+- flex + center/center pra centralizar o card com menos código
+  do que ficar calculando margem.
+
+body::before ... radial-gradient
+- pseudo-elemento só pra criar 2 brilhos de luz (efeito).
+- z-index: -1 pra ficar atrás de tudo. Se não tivesse z-index
+  negativo, cobriria a página.
+
+CARD
+====
+.card { max-width: 760px; backdrop-filter: blur(16px);
+        border-radius: 24px; box-shadow: 0 20px 60px rgba(...); }
+
+- backdrop-filter: blur(16px) foi o que deu o efeito "vidro
+  fosco" no fundo do card. É bem mais moderno que por trás
+  de um rgba sólido.
+- A sombra dupla (box-shadow com 2 sombras separadas por
+  vírgula) dá profundidade sem precisar de imagem.
+
+INPUT / BUTTON
+==============
+input:focus { outline:none; border-color: var(--primary);
+              box-shadow: 0 0 0 4px rgba(54,208,255,.15); }
+- outline:none remove a borda padrão do navegador (feia) e o
+  box-shadow substitui por um "anel" de brilho azul.
+- Esse anel com spread (o 4px) é um truque pra fazer o
+  foco "glow" sem mudar o layout.
+
+button:hover { transform: translateY(-3px); box-shadow: ...; }
+button:active { transform: scale(.98); }
+- hover levanta o botão, active encolhe um tiquinho.
+  Pequenos detalhes que deixam o clique com "cara de botão".
+
+RESULTADO / OCULTO
+==================
+.oculto { display: none; }
+- É essa classe que controla mostrar/esconder. O JS só
+  add/remove. Simples e eficaz.
+
+GRID DOS DADOS DO ENDEREÇO
+==========================
+.dados { display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+         gap: 16px; }
+.dado-maior { grid-column: 1 / -1; }
+
+- auto-fit + minmax(220px,1fr): as colunas se ajustam sozinhas
+  ao espaço (responsivo "de graça", sem media query aqui).
+- .dado-maior (o logradouro) ocupa a linha toda com
+  grid-column: 1/-1.
+
+RELÓGIO FIXO
+============
+.nav-time-container { position: fixed; top:15px; right:15px;
+                      backdrop-filter: blur(10px); z-index:99999; }
+.nav-time-container::before { left:-100%; ... }
+.nav-time-container:hover::before { left:100%; }
+- > fixed: gruda no canto, não rola junto.
+- O ::before é um "feixe" que atravessa a caixa no hover -> dá
+  efeito de reflexo de luz. É só um gradiente que muda de left.
+
+CLIMA - O CARD E OS VÍDEOS (a parte chave)
+==========================================
+#wf-main-temp {
+  position: relative;
+  overflow: hidden;
+  grid-column: 1 / -1;
+  display: flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #0d3355, #04101d);
+}
+
+- position:relative é o "contêiner de referência" pros vídeos
+  position:absolute.
+- overflow:hidden corta o vídeo que passar do card (sem isso o
+  vídeo vazava). É assim que o vídeo fica "do tamanho" do card.
+
+#wf-temp-video, #wf-temp-video-chuva, #wf-temp-video-ceu-limpo,
+#wf-temp-video-poucas, #wf-temp-video-pancadas {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  object-fit:cover; border-radius:inherit; z-index:0;
+  display:none; pointer-events:none;
+}
+
+- Agrupo os 5 vídeos no mesmo bloco (separados por vírgula)
+  pra não repetir.
+- object-fit:cover: preenche o card inteiro sem distorcer,
+  cortando o excesso se precisar.
+- border-radius:inherit herda o arredondamento do card.
+- pointer-events:none: o vídeo não interfere no clique (o
+  conteúdo fica por cima).
+
+#wf-main-temp.video-nublado   #wf-temp-video          {display:block;}
+#wf-main-temp.video-chuva     #wf-temp-video-chuva    {display:block;}
+#wf-main-temp.video-ceu-limpo #wf-temp-video-ceu-limpo{display:block;}
+#wf-main-temp.video-poucas    #wf-temp-video-poucas   {display:block;}
+#wf-main-temp.video-pancadas  #wf-temp-video-pancadas {display:block;}
+
+- Esse é o truque: o JS só alterna a CLASSE do card, e o CSS
+  decide qual vídeo mostrar (display:block).
+- Seletor "[pai].[classe] [filho]" = "video X quando o pai
+  tiver a classe Y".
+
+CONTEÚDO ACIMA DO VÍDEO
+=======================
+#wf-temp-icon,
+#wf-main-temp > div:not(dos vídeos...) {
+  position: relative;
+  z-index: 1;
+}
+- z-index:1 no conteúdo > z-index:0 no vídeo => texto e ícone
+  ficam visíveis por cima do vídeo.
+- O :not() exclui os vídeos da regra pra não subir eles também.
+
+DETALHES DO CLIMA
+=================
+#wf-extra-stats { display:grid; grid-template-columns:1fr 1fr; }
+.wf-stat-item { ... }
+#wf-icon-max { color:#ff6b6b; }  // vermelho = quente
+#wf-icon-min { color:#5fafff; }  // azul = frio
+#wf-icon-humidity { color:#0ea5e9; }  // gota azul
+#wf-icon-wind { color:#36d0ff; }  // vento claro
+- só escolhi cores que fazem sentido com o conceito
+  (máx quente = vermelho, mín frio = azul).
+
+RESPONSIVO
+==========
+@media(max-width:620px) {
+  .campo-botao { flex-direction: column; }
+  #wf-details-wrapper { grid-template-columns: 1fr; }
+  #wf-main-temp { flex-direction: column; text-align:center; }
+}
+- <620px (celular): empilha campo+botão e empilha o card do
+  clima (1 coluna). O resto já era responsivo pelo grid/flex.
+
+LUZES ANIMADAS DE FUNDO
+=======================
+.luz { position:absolute; filter:blur(60px); mix-blend-mode:screen; }
+.luz-1 { width:60vmax; height:20vmax; ... animation:luz1 9s ...; }
+@keyframes luz1 { 0%,100%{...} 50%{...} }
+
+- 4 barras desfocadas (blur) que se movem devagar.
+- mix-blend-mode:screen faz elas "brilharem" por cima do fundo.
+- vmax é relativo à tela (responsivo sem media query).
+- Cada luz com keyframe/direção própria pra não ficar
+  sincronizado e parecer mais natural.
+
+ANIMAÇÃO DOS CARDS (entrada em cascata)
+=======================================
+.dados .dado { animation: aparecerCard .5s ease backwards; }
+.dados .dado:nth-child(2) { animation-delay:.07s; }
+...
+- cada card entra com um atraso pequeno (nth-child) =>
+  efeito cascata.
+- "backwards" = aplica o estado inicial do from() antes do atraso,
+  senão os cards aparecem visíveis e só "pulam" no delay.
+

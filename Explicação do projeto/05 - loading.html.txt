@@ -1,0 +1,78 @@
+=========================================================
+loading.html - splash screen (tela de abertura)
+=========================================================
+
+Essa tela aparece antes da principal. É uma animação de um
+traço sendo "desenhado" + título entrando, depois redireciona
+pro index.
+
+SVG (o traço)
+=============
+<svg viewBox="0 0 1000 500">
+  <defs>
+    <linearGradient id="meuGradiente" ...>
+      <stop offset="0%" stop-color="#36d0ff" />
+      <stop offset="100%" stop-color="#00e5ff" />
+    </linearGradient>
+  </defs>
+  <path d="M 50 240 C 120 0, ..." stroke="url(#meuGradiente)" ... />
+</svg>
+
+- Criei um gradiente (meuGradiente) e apliquei no stroke do
+  path => o traço não é cor chapada, é um degradê ciano->azul.
+- O path é uma onda feita com curvas (comandos M e C do SVG).
+- viewBox mantém a proporção; o CSS seta width/height.
+
+ANIMAÇÃO COM GSAP
+=================
+<script src="...gsap.min.js"></script>
+<script src="...DrawSVGPlugin3.min.js"></script>
+
+gsap.registerPlugin(DrawSVGPlugin);
+
+const svgPath = document.querySelector('.div-svg path');
+const titulo = document.querySelector('.titulo');
+const subtitulo = document.querySelector('.subtitulo');
+
+gsap.set(svgPath, { drawSVG: "0%", strokeWidth: 2 });
+
+const timeline = gsap.timeline();
+
+timeline
+  .to(svgPath, { duration:2, drawSVG:"100%", strokeWidth:16,
+                 ease:"power2.inOut" })
+  .to(svgPath, { duration:0.6, opacity:0.2 }, "-=0.2")
+  .fromTo(titulo, {opacity:0, y:20}, {duration:0.6, opacity:1, y:0,
+                 ease:"power2.out"}, "-=0.3")
+  .fromTo(subtitulo, {opacity:0, y:10}, {duration:0.5, opacity:0.7,
+                 y:0, ease:"power2.out"}, "-=0.3")
+  .to('.splash', { duration:0.6, opacity:0 });
+
+- GSAP é a biblioteca de animação (GreenSock). O DrawSVGPlugin
+  é o plugin que permite animar o "desenho" de um path.
+- gsap.set define o estado inicial (traço 0% desenhado, fino).
+- timeline encadeia as animações em ordem.
+- O "-=0.2"/"-=0.3" é um deslocamento de tempo: faz a próxima
+  animação começar um pouco ANTES da anterior terminar, pra
+  ficar fluido e sobreposto (não um "passo a passo" seco).
+- drawSVG vai de 0% a 100% enquanto o stroke engrossa de 2 a
+  16px, dando o efeito "caneta desenhando".
+
+REDIRECIONAMENTO
+================
+timeline.eventCallback('onComplete', () => {
+  sessionStorage.setItem('splashExibido', '1');
+  window.location.href = 'index.html';
+});
+
+- onComplete: quando a timeline termina, executa essa função.
+- seto a flag no sessionStorage (usada no index.html pra saber
+  que já passei pelo loading).
+- e mudo pra index.html.
+
+Por que sessionStorage e não localStorage?
+==========================================
+- sessionStorage morre quando fecha a aba. Quero que o loading
+  apareça toda vez que abrir uma aba/sessão nova, mas não fique
+  "piscando" ao navegar dentro do site. Essa é a diferença que
+  eu levei em consideração na escolha.

@@ -1,0 +1,87 @@
+=========================================================
+DOWNLOAD DICAS PARA A APRESENTAÇÃO
+=========================================================
+
+Algumas coisas que eu provavelmente vou ter que explicar pro
+professor. Respostas rápidas, no meu estilo.
+
+O QUE O PROJETO FAZ?
+====================
+Consulta CEP pela API ViaCEP e, com a cidade, busca o clima
+na OpenWeatherMap. Mostra endereço + temperatura/umidade/vento
++ um vídeo de fundo que troca conforme o clima.
+
+QUAIS "NUVENS" VOCÊ USOU?
+=========================
+Não inventei nada, usei serviços de nuvem de verdade:
+- ViaCEP (consulta de endereço/CEP)
+- OpenWeatherMap (clima)
+As duas são APIs acessadas pela internet (a nuvem). Por isso
+o projeto é de Computação em Nuvem.
+
+POR QUE async/await?
+====================
+Porque fetch é uma operação assíncrona (demora pra vir da
+rede). Com await o código "pausa" esperando a resposta sem
+travar a página. Se eu não usasse, o dado ainda nem tinha
+chegado e eu já tentaria usar.
+
+POR QUE try/catch (e o finally no CEP)?
+=======================================
+O try tenta executar; se qualquer coisa der erro (rede fora,
+JSON quebrado, CEP inválido), o catch captura e eu mostro uma
+mensagem amigável em vez de quebrar a página. O finally garante
+que o botão volta ao normal SEMPRE (sucesso ou erro), senão ele
+ficaria preso em "Buscando...".
+
+COMO VOCÊ ESCOLHE O VÍDEO DO CLIMA?
+===================================
+A API me devolve um código de ícone (ex. "04d") e uma
+descrição. No JS eu limpo as classes de vídeo antigas e adiciono
+uma classe de acordo com o clima (video-nublado, video-chuva...).
+No CSS, cada classe mostra um <video> diferente (display:block).
+Ou seja: o JS só alterna a classe, quem decide qual vídeo mostra
+é o CSS. Não manipulo o video direto.
+
+POR QUE VERIFICAR ÍCONE E DESCRIÇÃO?
+====================================
+Por segurança. O código 10 (chuva) pode ser chuva leve ou
+chuva forte, então leio a descrição pra separar. E às vezes a
+API devolve descrição em inglês dependendo da config, então
+trato os dois.
+
+POR QUE A TELA DE CARREGAMENTO NÃO APARECE TODA HORA?
+=====================================================
+Uso sessionStorage. Depois que o loading termina eu marco a
+flag "splashExibido". No index, se a flag existir, não
+redireciono pro loading. Como sessionStorage é por aba/sessão,
+fechou a aba, abriu de novo -> aparece de novo.
+
+POR QUE O RELÓGIO MOSTRA A HORA DE BRASÍLIA?
+============================================
+Uso Intl.DateTimeFormat com timeZone: 'America/Sao_Paulo'.
+Então não importa o fuso do computador do usuário, a hora
+mostrada é sempre a de Brasília.
+
+DIFERENÇA sessionStorage vs localStorage?
+=========================================
+sessionStorage morre quando fecha a aba; localStorage fica
+salvo mesmo depois de fechar. Eu queria que o loading
+aparecesse em sessão nova, então usei sessionStorage.
+
+JÁ PENSOU PRA QUE SERVE API KEY? POR QUE TÁ NO CÓDIGO?
+======================================================
+A API Key é a "senha" que identifica minha conta na
+OpenWeatherMap. Tá exposta aqui porque é projeto de estudo,
+mas eu sei que o certo pra produção é esconder (variável de
+ambiente / backend).
+
+SE PREGUNTAREM "O QUE VOCÊ APRENDEU":
+=====================================
+- consumir API real com fetch e async/await
+- tratar erros (try/catch/finally)
+- manipular o DOM (querySelector, classList, innerText)
+- CSS moderno (flexbox, grid, variáveis, clamp, backdrop-filter)
+- responsividade com media query e grid auto-fit
+- animações com GSAP
+- por que coisas ficam na nuvem e como consumir elas

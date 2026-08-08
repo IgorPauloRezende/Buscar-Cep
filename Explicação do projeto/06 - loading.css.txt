@@ -1,0 +1,54 @@
+=========================================================
+loading.css - visual da tela de carregamento
+=========================================================
+
+Parece com o style.css (mesma paleta, mesmas luzes), então
+vou focar no que é específico/diferente.
+
+BODY
+====
+body { min-height:100vh; background: linear-gradient(135deg,#04101d,#0d3355);
+       display:flex; justify-content:center; align-items:center;
+       overflow:hidden; }
+- overflow:hidden aqui é intencional: não quero scrollbar numa
+  tela de loading de 1-2s.
+
+body::before ... radial-gradient
+- mesmo truque de brilhos de fundo do style.css.
+
+.SPLASH (centralização)
+=======================
+.splash { width:100%; height:100vh; display:flex;
+          flex-direction:column; justify-content:center;
+          align-items:center; gap:12px; }
+- flex-direction:column empilha o SVG, o título e o subtítulo.
+- centraliza tudo com justify+align.
+
+SVG
+===
+.div-svg { width:100%; max-width:900px; padding:0 20px; }
+.div-svg svg { width:100%; height:auto; }
+- max-width mantém o traço grande mas sem explodir em telas
+  enormes. height:auto mantém a proporção do viewBox.
+
+TÍTULO / SUBTÍTULO
+==================
+.titulo { font-size: clamp(2rem, 6vw, 3.5rem); font-weight:800;
+          opacity:0; }
+.subtitulo { font-size:13px; letter-spacing:3px; text-transform:uppercase;
+             opacity:0; }
+- clamp(2rem, 6vw, 3.5rem) = fonte líquida: mínimo 2rem, ideal
+  6vw (proporcional à tela), máximo 3.5rem. Responsivo sem
+  media query.
+- opacity:0 é IMPORTANTE: começa invisível e quem "acende" é o
+  GSAP na animação. Se eu esquecesse o opacity:0, o texto
+  apareceria antes do tempo e estragaria o efeito.
+
+LUZES
+=====
+.luz { position:absolute; filter:blur(60px); mix-blend-mode:screen; }
+.luz-1 { width:60vmax; height:20vmax; ... animation:luz1 9s infinite; }
+@keyframes luz1 { 0%,100%{...} 50%{...} }
+- 4 luzes animadas, cada uma com duração/direção própria
+  (9s, 11s, 13s, 10s) pra não ficar sincronizado.
+- blur(60px) + mix-blend-mode:screen = brilho suave por cima do fundo.
