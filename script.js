@@ -12,6 +12,18 @@ const ddd = document.querySelector('#ddd');
 
 
 
+// Troca o placeholder do campo CEP em telas menores (mesmo limite do responsividade.css)
+function ajustarPlaceholder() {
+  const placeholderMobile = 'Digite aqui';
+  const placeholderPc = 'Digite o CEP para buscar a sua escolha';
+  inputCep.placeholder = window.innerWidth <= 620 ? placeholderMobile : placeholderPc;
+}
+
+ajustarPlaceholder();
+window.addEventListener('resize', ajustarPlaceholder);
+
+
+
 inputCep.addEventListener('input', () => {
 
   let cep = inputCep.value.replace(/\D/g, '');

@@ -675,3 +675,40 @@ left: 17vh;
   width: 150px;
   left: 35vh;
 }
+
+.astrobot-fundo img {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: auto;
+  z-index: 9999;
+}
+
+#formCep {
+  position: relative;
+}
+
+.astrobot-fundo2 {
+  position: absolute;
+  top: 1vh;
+  left: 62vh;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.astrobot-fundo2 img {
+  width: 150px;
+}
+
+.astrobot-fundo3 {
+  position: absolute;
+  top: -7vh;
+  left: 13vh;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.astrobot-fundo3 img {
+  width: 10vh;
+}

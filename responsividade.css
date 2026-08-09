@@ -76,6 +76,32 @@ body {
     height: 52px;
   }
 
+  /* Astrobot no formulário: mesma disposição do PC, proporcional */
+  .astrobot-fundo2 {
+    top: 44px;
+    left: auto;
+    right: -4px;
+  }
+
+  .astrobot-fundo2 img {
+    width: 84px;
+  }
+
+  .astrobot-fundo3 {
+    top: -46px;
+    left: auto;
+    right: 4px;
+  }
+
+  .astrobot-fundo3 img {
+    width: 50px;
+  }
+
+  /* Astrobot do rodapé: fixo no canto, menor que no PC */
+  .astrobot-fundo img {
+    width: 140px;
+  }
+
   /* Clima: painel principal e detalhes em uma coluna */
   #wf-details-wrapper {
     grid-template-columns: 1fr;
@@ -138,6 +164,24 @@ body {
 
   .campo-botao button {
     width: 100%;
+  }
+
+  /* Robôs menores em telas bem pequenas */
+  .astrobot-fundo2 img {
+    width: 150px;
+    top: -40px;
+    position: relative;
+    left:  25px;
+  }
+
+  .astrobot-fundo3 img {
+    width: 100px;
+    top: -60px;
+    position: relative;
+  }
+
+  .astrobot-fundo img {
+    width: 110px;
   }
 
   /* Barra de navegação mais compacta */
