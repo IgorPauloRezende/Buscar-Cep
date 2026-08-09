@@ -1,21 +1,8 @@
-/* ============================================================
-   responsividade.css
-   ------------------------------------------------------------
-   Toda a responsividade do site fica neste arquivo.
-   Os estilos base continuam em style.css (e loading.css).
-   Aqui adaptamos o layout para: celulares, tablets,
-   notebooks e TVs.
-   ============================================================ */
-
-/* Guarda global: impede barra de rolagem horizontal */
 html,
 body {
   overflow-x: hidden;
 }
 
-/* ============================================================
-   TELAS GRANDES / TV  (a partir de 1920px)
-   ============================================================ */
 @media (min-width: 1920px) {
   .card {
     max-width: 900px;
@@ -26,9 +13,6 @@ body {
   }
 }
 
-/* ============================================================
-   NOTEBOOKS PEQUENOS / TABLETS LANDSCAPE  (até 1024px)
-   ============================================================ */
 @media (max-width: 1024px) {
   .container {
     padding: 24px;
@@ -43,9 +27,6 @@ body {
   }
 }
 
-/* ============================================================
-   TABLETS PORTRAIT  (até 768px)
-   ============================================================ */
 @media (max-width: 768px) {
   .card {
     padding: 28px;
@@ -56,9 +37,6 @@ body {
   }
 }
 
-/* ============================================================
-   CELULARES  (até 620px)
-   ============================================================ */
 @media (max-width: 620px) {
   .card {
     padding: 24px;
@@ -76,7 +54,6 @@ body {
     height: 52px;
   }
 
-  /* Astrobot no formulário: mesma disposição do PC, proporcional */
   .astrobot-fundo2 {
     top: 44px;
     left: auto;
@@ -97,12 +74,10 @@ body {
     width: 50px;
   }
 
-  /* Astrobot do rodapé: fixo no canto, menor que no PC */
   .astrobot-fundo img {
     width: 140px;
   }
 
-  /* Clima: painel principal e detalhes em uma coluna */
   #wf-details-wrapper {
     grid-template-columns: 1fr;
   }
@@ -116,7 +91,6 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Cards do Astrobot: imagem centralizada e ajustada à largura */
   .jogar,
   .Esporte {
     text-align: center;
@@ -141,9 +115,6 @@ body {
   }
 }
 
-/* ============================================================
-   CELULARES PEQUENOS  (até 480px)
-   ============================================================ */
 @media (max-width: 480px) {
   .container {
     padding: 12px;
@@ -166,7 +137,6 @@ body {
     width: 100%;
   }
 
-  /* Robôs menores em telas bem pequenas */
   .astrobot-fundo2 img {
     width: 150px;
     top: -40px;
@@ -184,7 +154,6 @@ body {
     width: 110px;
   }
 
-  /* Barra de navegação mais compacta */
   .nav-bar {
     top: 10px;
     right: 10px;
@@ -204,12 +173,10 @@ body {
     font-size: 14px;
   }
 
-  /* Endereço empilhado */
   .dados {
     grid-template-columns: 1fr;
   }
 
-  /* Clima */
   #wf-temp-now {
     font-size: 26px;
   }
@@ -228,9 +195,6 @@ body {
   }
 }
 
-/* ============================================================
-   SPLASH / TELA DE CARREGAMENTO  (loading.html)
-   ============================================================ */
 .splash img {
   max-width: 90%;
   height: auto;
