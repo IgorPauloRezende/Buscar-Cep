@@ -20,8 +20,19 @@
     <div class="luz luz-3"></div>
     <div class="luz luz-4"></div>
   </div>
-  <div class="nav-time-container">
-    <span class="nav-time" id="brasilia-clock">00:00</span>
+  <div class="nav-bar">
+    <button
+      type="button"
+      class="nav-refresh"
+      id="botaoRecarregar"
+      aria-label="Recarregar página"
+      title="Recarregar página"
+    >
+      <i class="fa-solid fa-rotate"></i>
+    </button>
+    <div class="nav-time-container">
+      <span class="nav-time" id="brasilia-clock">00:00</span>
+    </div>
   </div>
   <main class="container">
     <section class="card">
@@ -30,7 +41,6 @@
       <p class="descricao">
         Digite um CEP para buscar o endereço.
       </p>
-
       <form id="formCep">
         <label for="cep">CEP</label>
 
@@ -137,10 +147,25 @@
             </div>
           </div>
 </div>
+<br>
+<div class="jogar">
+  <h2>Tempo bom para ficar em casa</h2>
+  <img src="Images/Astrobot2.gif?v=2" alt="Astrobot2">
+  <br><br><br><br><br><br><br><br>
+</div>
+
+<div class="Esporte">
+  <h2>Tempo bom para praticar um esporte</h2>
+  <img src="Images/Astrobot5.gif?v=2" alt="Astrobot5">
+  <br><br><br><br><br><br><br><br>
+</div>
       </section>
     </section>
   </main>
-
+  <div class="fundo">
+<img src="Images/Astrobot3.gif?v=2" alt="fundo-astrobot">
+</div>
+  <script src="condicao.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

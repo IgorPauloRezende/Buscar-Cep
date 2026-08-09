@@ -2,23 +2,30 @@
 MEU PROJETO - VISÃO GERAL
 =========================================================
 
-Projeto da matéria de Computação em Nuvem. A ideia é um site
-que consulta CEP e mostra o clima da cidade, usando duas APIs
-que ficam na nuvem:
+Bom, esse é o projeto de Computação em Nuvem. A ideia é um site
+que consulta CEP e ainda mostra o clima da cidade. Pra isso eu
+uso duas APIs que ficam na nuvem:
 
-- ViaCEP: dado o CEP, devolve o endereço completo.
-- OpenWeatherMap: dado o nome da cidade, devolve o clima atual.
+- ViaCEP: você digita um CEP e ela devolve o endereço completo.
+- OpenWeatherMap: você fala o nome da cidade e ela devolve o
+  clima na hora.
 
-Além dos dados, eu coloquei vídeos de fundo que trocam
-conforme o clima (nublado, chuva, sol, etc.) - foi a parte
-mais legal de fazer porque eu tive que usar o código do clima
-pra decidir qual vídeo mostrar.
+Além dos dados, eu coloquei vídeos de fundo que trocam conforme
+o clima (nublado, chuva, sol, etc). Essa foi a parte que eu mais
+curti fazer, porque eu tive que usar o código do clima pra
+decidir qual vídeo ia aparecer na tela.
+
+E ainda fiz uma "regrinha" que ficou legal: se tiver chovendo ou
+com tempestade, aparece um cartão falando pra ficar em casa. Se
+o tempo tiver bom, aparece outro falando pra sair e praticar um
+esporte. Simples, mas dá um charme pro site.
 
 ARQUIVOS
 ========
 - index.html ........ página principal (form + resultado)
 - style.css ......... visual da página principal
-- script.js ......... consumir as APIs + lógica dos vídeos
+- script.js ......... consome as APIs + lógica dos vídeos
+- condicao.js ....... decide qual cartão aparece (ficar em casa / esporte)
 - loading.html ...... splash screen de entrada
 - loading.css ....... visual do loading
 - clock.js .......... relógio de Brasília
@@ -26,10 +33,10 @@ ARQUIVOS
 
 FLUXO
 =====
-1. Primeiro acesso: cai no loading (animação GSAP).
-2. Usa sessionStorage pra não repetir o loading na mesma sessão.
-3. Navegou pro index: usuário digita o CEP.
+1. Primeira vez que abre: cai no loading (animação GSAP).
+2. Uso sessionStorage pra não repetir o loading na mesma sessão.
+3. Vai pro index: o usuário digita o CEP.
 4. script.js chama a ViaCEP -> preenche o endereço.
-5. com a cidade, chama a OpenWeatherMap -> preenche o clima.
-6. pelo código/descrição do clima, mostra o vídeo certo.
-
+5. Com a cidade, chama a OpenWeatherMap -> preenche o clima.
+6. Pelo código/descrição do clima, mostra o vídeo certo e o
+   cartão certo (ficar em casa ou esporte).

@@ -17,15 +17,15 @@ atualizarRelogio();
 
 - pego o elemento pelo id (o <span> no topo).
 - if(relogio): se não existir na página, não quebra. Isso
-  importa porque esse script é carregado no index.html, mas
-  a lógica é reutilizável.
+  importa porque esse script é carregado no index.html, mas a
+  lógica é reutilizável.
 
 O PONTO QUE EU ACHO INTERESSANTE AQUI
 =====================================
 Uso o Intl.DateTimeFormat com timeZone: 'America/Sao_Paulo'.
-Ou seja: a hora exibida NÃO depende do relógio do computador
-do usuário, e sim do fuso do Brasil. Se alguém abre o site de
-outro país, mostra a hora de Brasília mesmo assim.
+Ou seja: a hora exibida NÃO depende do relógio do computador do
+usuário, e sim do fuso do Brasil. Se alguém abre o site de outro
+país, mostra a hora de Brasília mesmo assim.
 
 - hour12:false => formato 24h (13:05, e não 01:05 PM).
 - setInterval(..., 1000) atualiza a cada 1 segundo.
@@ -34,7 +34,7 @@ outro país, mostra a hora de Brasília mesmo assim.
 
 Por que um arquivo separado?
 ============================
-Porque senão ia misturar lógica do relógio com lógica de CEP/clima
-no script.js. Deixar separado é mais limpo (aprendizado de
-separação de responsabilidades, mesmo em JS puro).
-
+Porque senão ia misturar lógica do relógio com lógica de
+CEP/clima no script.js. Deixar separado é mais limpo
+(aprendizado de separação de responsabilidades, mesmo em JS
+puro).

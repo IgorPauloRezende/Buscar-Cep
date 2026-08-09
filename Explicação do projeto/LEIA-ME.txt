@@ -13,3 +13,6 @@ Ordem pra revisar antes da apresentação:
 06 - loading.css ......... visual do loading
 07 - dicas para apresentação .... respostas curtas pras perguntas
 
+Obs: a lógica dos cartões de "ficar em casa / praticar esporte"
+fica no condicao.js, mas eu expliquei ela dentro do 02 (script.js)
+e no 07 (dicas), junto com o fluxo do clima.

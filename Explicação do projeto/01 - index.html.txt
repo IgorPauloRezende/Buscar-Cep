@@ -2,8 +2,8 @@
 index.html - minha página principal
 =========================================================
 
-Aqui deixei só as partes que tiveram decisão minha. O resto
-é HTML padrão.
+Aqui eu vou deixar só as partes que tiveram decisão minha. O
+resto é HTML padrão que a gente já viu em aula.
 
 HEAD
 ====
@@ -14,26 +14,26 @@ HEAD
 </script>
 
 - Na primeira visita não existe a flag "splashExibido", então
-  jogo pro loading.html.
-
-- Depois que o loading termina ele seta essa flag no
-  sessionStorage, como o sessionStorage é por aba, 
-  se a pessoa fechar e abrir a aba aparece o loading de novo.
+  ele me manda pro loading.html.
+- Quando o loading termina, ele seta essa flag no sessionStorage.
+  Como o sessionStorage é por aba, se a pessoa fechar e abrir a
+  aba de novo, aparece o loading de novo. Eu queria que fosse
+  assim mesmo.
 
 BODY / ESTRUTURA
 ================
 luzes
 - 4 divs .luz que o CSS anima. São barras desfocadas que dão
-  aquele fundo "cênico". Só estrutura, o efeito é no style.css.
+  aquele fundo "cênico". Só estrutura, o efeito tá no style.css.
 
 nav-time-container
 - caixinha fixa no canto com o relógio. O id brasilia-clock é
   quem o clock.js atualiza.
 
 card / form
-- form#formCep com input#cep e o botão. Percebi que preciso
-  do maxlength="9" porque o CEP formatado tem 8 numeros + 1
-  hifen (o script formata 99999-999 enquanto digita).
+- form#formCep com input#cep e o botão. Eu percebi que precisa
+  do maxlength="9" porque o CEP formatado tem 8 números + 1
+  hífen (o script formata 99999-999 enquanto você digita).
 - p#mensagem é onde eu mostro erro/sucesso.
 
 resultado (endereço)
@@ -55,23 +55,32 @@ Dentro dele eu coloquei 5 <video>:
   #wf-temp-video-pancadas  -> pancadas de chuva
 
 - Todos com autoplay muted loop playsinline.
-- Muted é obrigatório pra navegador deixar tocar sozinho.
-- Os 5 ficam escondidos (display:none no CSS) e o script
-  mostra só o certo.
-- Decisão: deixei todos os <video> no HTML em vez de criar
-  por JS. Vantagem: é simples e já fica "pré-carregado" no
-  DOM. Desvantagem: carrega várias fontes de vídeo de cara
-  (mais peso no carregamento inicial), mas pra esse caso
-  valeu porque é um projeto pequeno.
+- O muted é obrigatório pro navegador deixar tocar sozinho
+  (senão ele bloqueia).
+- Os 5 ficam escondidos (display:none no CSS) e o script mostra
+  só o certo.
+- Decisão: deixei todos os <video> no HTML em vez de criar por
+  JS. Vantagem: é simples e já fica "pré-carregado" no DOM.
+  Desvantagem: carrega várias fontes de vídeo de cara (mais peso
+  no carregamento inicial). Mas pra esse caso valeu, o projeto é
+  pequeno.
 
 wf-extra-stats
-- 4 cards: temp máx, mín, umidade e vento, cada um com um
-  ícone Font Awesome e um id de valor (wf-temp-max, -min,
-  -humidity-val, -wind-val).
+- 4 cards: temp máx, mín, umidade e vento. Cada um com um ícone
+  Font Awesome e um id de valor (wf-temp-max, -min, -humidity-val,
+  -wind-val).
+
+OS CARTÕES DE FICAR EM CASA / ESPORTE
+=====================================
+- Logo abaixo do clima tem dois cartões:
+    .jogar   -> "Tempo bom para ficar em casa"
+    .Esporte -> "Tempo bom para praticar um esporte"
+- Os dois começam escondidos. Quem decide mostrar um deles é o
+  condicao.js, dependendo da classe do clima. Aqui no HTML eu só
+  coloquei a estrutura e os GIFs dos astrobots.
 
 Observação
 ==========
-A API Key da OpenWeatherMap está exposta aqui no projeto
-(script.js). Pra uso acadêmico ok, mas eu sei que o certo
-seria esconder (provável pergunta do professor).
-
+A API Key da OpenWeatherMap tá exposta aqui no projeto
+(script.js). Pra uso acadêmico ok, mas eu sei que o certo seria
+esconder (provável pergunta do professor).

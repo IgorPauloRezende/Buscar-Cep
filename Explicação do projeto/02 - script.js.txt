@@ -16,11 +16,11 @@ inputCep.addEventListener('input', () => {
   inputCep.value = cep;
 });
 
-- replace(/\D/g, '') tira tudo que não é número (evita que o
-  cara digite letra).
-- Quando passa de 5 digitos aplica o hifen: 99999-999.
+- replace(/\D/g, '') tira tudo que não é número (evita o cara
+  digitar letra).
+- Quando passa de 5 dígitos aplica o hífen: 99999-999.
 - Achei melhor formatar no 'input' (a cada tecla) do que no
-  submit, senão o usuário não vê o hifen entrando.
+  submit, senão o usuário não vê o hífen entrando.
 
 VALIDANDO O ENVIO
 =================
@@ -36,10 +36,10 @@ formCep.addEventListener('submit', async (evento) => {
     return;
   }
 
-- preventDefault: se eu deixar, o form recarrega a página e
+- preventDefault: se eu deixar, o form recarrega a página e eu
   perco tudo. Então bloqueio e trato via JS.
-- Limpo a mensagem antiga e escondo o resultado anterior pra
-  não ficar "endereço velho" na tela enquanto carrega.
+- Limpo a mensagem antiga e escondo o resultado anterior pra não
+  ficar "endereço velho" na tela enquanto carrega.
 - Valido 8 números antes de gastar request.
 - inputCep.focus() devolve o cursor pro campo.
 
@@ -62,8 +62,8 @@ try {
 
 - Desabilito o botão e mudo o texto pra evitar requisição
   duplicada enquanto espera.
-- fetch faz a request, await espera.
-- O ViaCEP usa a convenção: qdo não acha, retorna
+- fetch faz a request, await espera a resposta chegar.
+- O ViaCEP tem a convenção: quando não acha o CEP, retorna
   {"erro": true} com status 200. Então tem 2 verificações:
   !resposta.ok (problema de rede/serviço) e endereco.erro
   (CEP inexistente). São coisas diferentes e eu trato as duas.
@@ -131,8 +131,9 @@ async function buscarClima(cidade, uf) {
 
 - lang=pt_br faz a descrição vir em português.
 - units=metric pra temperatura em Celsius (senão vem Kelvin).
-- encodeURIComponent(cidade): o nome da cidade pode ter espaço/acento
-  (cidade brasileira tem muito isso), e isso quebraria a URL.
+- encodeURIComponent(cidade): o nome da cidade pode ter
+  espaço/acento (cidade brasileira tem muito isso), e isso
+  quebraria a URL.
 - json.cod === 200 é o padrão HTTP de sucesso.
 - json.weather[0] é um array, sempre pego o primeiro (é o atual).
 - .toFixed(1) deixa a velocidade do vento com 1 casa.
@@ -149,9 +150,12 @@ ESCOLHENDO O VÍDEO PELO CLIMA
 
     if (descricao.includes('chuva leve') || descricao.includes('light rain')) {
       wfMainTemp.classList.add('video-chuva');
-    } else if (icone.startsWith('09') ||
+    } else if (icone.startsWith('09') || icone.startsWith('10') ||
+               icone.startsWith('11') ||
                descricao.includes('pancadas de chuva') ||
-               descricao.includes('shower rain')) {
+               descricao.includes('shower rain') ||
+               descricao.includes('tempestade') ||
+               descricao.includes('thunderstorm')) {
       wfMainTemp.classList.add('video-pancadas');
     } else if (icone.startsWith('03') || icone.startsWith('04')) {
       wfMainTemp.classList.add('video-nublado');
@@ -165,23 +169,40 @@ ESCOLHENDO O VÍDEO PELO CLIMA
       wfMainTemp.classList.add('video-ceu-limpo');
     }
 
-- icone é tipo "04d" (04 = condição, d = dia). d de "day", n de "night".
+- icone é tipo "04d" (04 = condição, d = dia). d de "day", n de
+  "night".
 - Primeiro removo TODAS as classes de vídeo. Se eu não fizesse,
   numa segunda busca podia acumular e mostrar 2 vídeos juntos.
 - Lógica por condição:
   01 -> céu limpo
   02 -> poucas nuvens
   03/04 -> nublado
-  09 -> pancadas de chuva
-  10 + descricao "chuva leve" ou "light rain" -> chuva (o código 10
-       cobre chuva forte e leve, por isso leio a descrição pra separar)
+  09/10/11 -> chuva, pancadas e tempestade
+- Juntei os códigos 09 (pancadas), 10 (chuva) e 11 (tempestade)
+  tudo no video-pancadas. Antes eu só tinha o 09 e a descrição
+  "pancadas de chuva", aí a tempestade não pegava nenhuma classe
+  e o site achava que era um dia normal. Agora pega tudo que é
+  chuva.
 - Uso startsWith pra variação dia/noite (03d/03n) e includes pra
-  descrição (acho mais seguro que bancar só no código, porque a API
-  às vezes devolve a descrição em inglês dependendo da config).
+  descrição. Acho mais seguro que bancar só no código, porque a
+  API às vezes devolve a descrição em inglês dependendo da config.
 
 - Cada classe no CSS mostra um <video> específico (display:block).
   Não é o JS que manipula o video direto, é o CSS. Fica mais
   organizado e eu não repito lógica.
+
+O CARTÃO DE FICAR EM CASA / ESPORTE
+===================================
+- Depois que o script.js aplica a classe do clima, entra o
+  condicao.js pra escolher o cartão:
+    - se a classe for de chuva/tempestade (video-chuva ou
+      video-pancadas) -> mostra "Tempo bom para ficar em casa"
+    - qualquer outra classe (nublado, poucas nuvens, céu limpo) ->
+      mostra "Tempo bom para praticar um esporte"
+- Ele usa um MutationObserver pra "ficar de olho" na classe do
+  card do clima e reagir quando ela muda.
+- Deixei separado de propósito: o script.js decide O CLIMA, o
+  condicao.js decide O CARTÃO. Cada um no seu arquivo.
 
 FINAL
 =====
@@ -195,4 +216,3 @@ FINAL
 - weatherResult começa display:none (CSS), e a classe show liga.
 - O else cobre cod != 200 e o catch pega erro de rede - em ambos
   mostro o card com mensagem de erro em vez de deixar em branco.
-

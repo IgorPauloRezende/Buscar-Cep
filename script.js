@@ -93,6 +93,14 @@ if (endereco.localidade) {
     
 });
 
+const botaoRecarregar = document.querySelector('#botaoRecarregar');
+
+if (botaoRecarregar) {
+  botaoRecarregar.addEventListener('click', () => {
+    window.location.href = 'loading.html';
+  });
+}
+
 const weatherResult = document.querySelector('#wf-weather-result');
 const wfLocation = document.querySelector('#wf-location-title');
 const wfTempNow = document.querySelector('#wf-temp-now');
@@ -130,7 +138,7 @@ wfMainTemp.classList.remove('video-nublado', 'video-chuva', 'video-ceu-limpo', '
 
       if (descricao.includes('chuva leve') || descricao.includes('light rain')) {
         wfMainTemp.classList.add('video-chuva');
-      } else if (icone.startsWith('09') || descricao.includes('pancadas de chuva') || descricao.includes('shower rain')) {
+      } else if (icone.startsWith('09') || icone.startsWith('10') || icone.startsWith('11') || descricao.includes('pancadas de chuva') || descricao.includes('shower rain') || descricao.includes('tempestade') || descricao.includes('thunderstorm')) {
         wfMainTemp.classList.add('video-pancadas');
       } else if (icone.startsWith('03') || icone.startsWith('04')) {
         wfMainTemp.classList.add('video-nublado');

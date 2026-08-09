@@ -2,7 +2,7 @@
 style.css - o visual
 =========================================================
 
-Aqui destaco as partes que tiveram decisão/truque, não o
+Aqui eu destaco as partes que tiveram decisão/truque, não o
 básico de CSS que a gente já viu em aula.
 
 VARIÁVEIS (:root)
@@ -33,8 +33,7 @@ CARD
         border-radius: 24px; box-shadow: 0 20px 60px rgba(...); }
 
 - backdrop-filter: blur(16px) foi o que deu o efeito "vidro
-  fosco" no fundo do card. É bem mais moderno que por trás
-  de um rgba sólido.
+  fosco" no fundo do card. É bem mais moderno que um rgba sólido.
 - A sombra dupla (box-shadow com 2 sombras separadas por
   vírgula) dá profundidade sem precisar de imagem.
 
@@ -44,8 +43,8 @@ input:focus { outline:none; border-color: var(--primary);
               box-shadow: 0 0 0 4px rgba(54,208,255,.15); }
 - outline:none remove a borda padrão do navegador (feia) e o
   box-shadow substitui por um "anel" de brilho azul.
-- Esse anel com spread (o 4px) é um truque pra fazer o
-  foco "glow" sem mudar o layout.
+- Esse anel com spread (o 4px) é um truque pra fazer o foco
+  "glow" sem mudar o layout.
 
 button:hover { transform: translateY(-3px); box-shadow: ...; }
 button:active { transform: scale(.98); }
@@ -76,7 +75,7 @@ RELÓGIO FIXO
                       backdrop-filter: blur(10px); z-index:99999; }
 .nav-time-container::before { left:-100%; ... }
 .nav-time-container:hover::before { left:100%; }
-- > fixed: gruda no canto, não rola junto.
+- fixed: gruda no canto, não rola junto.
 - O ::before é um "feixe" que atravessa a caixa no hover -> dá
   efeito de reflexo de luz. É só um gradiente que muda de left.
 
@@ -118,7 +117,7 @@ CLIMA - O CARD E OS VÍDEOS (a parte chave)
 
 - Esse é o truque: o JS só alterna a CLASSE do card, e o CSS
   decide qual vídeo mostrar (display:block).
-- Seletor "[pai].[classe] [filho]" = "video X quando o pai
+- Seletor "[pai].[classe] [filho]" = "vídeo X quando o pai
   tiver a classe Y".
 
 CONTEÚDO ACIMA DO VÍDEO
@@ -142,6 +141,17 @@ DETALHES DO CLIMA
 #wf-icon-wind { color:#36d0ff; }  // vento claro
 - só escolhi cores que fazem sentido com o conceito
   (máx quente = vermelho, mín frio = azul).
+
+OS CARTÕES DE FICAR EM CASA / ESPORTE
+=====================================
+.jogar, .Esporte { ... }
+.jogar h2, .Esporte h2 { text-align:center; }
+.jogar img { width:500px; }
+.Esporte img { width:150px; }
+- os dois cartões usam o mesmo estilo base (juntos no mesmo
+  bloco), cada um com seu GIF de astrobot.
+- quem liga/desliga eles é o condicao.js (display:none/block),
+  o CSS só cuida da aparência.
 
 RESPONSIVO
 ==========
@@ -170,8 +180,7 @@ ANIMAÇÃO DOS CARDS (entrada em cascata)
 .dados .dado { animation: aparecerCard .5s ease backwards; }
 .dados .dado:nth-child(2) { animation-delay:.07s; }
 ...
-- cada card entra com um atraso pequeno (nth-child) =>
-  efeito cascata.
+- cada card entra com um atraso pequeno (nth-child) => efeito
+  cascata.
 - "backwards" = aplica o estado inicial do from() antes do atraso,
   senão os cards aparecem visíveis e só "pulam" no delay.
-
