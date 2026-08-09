@@ -1,0 +1,203 @@
+/* ============================================================
+   responsividade.css
+   ------------------------------------------------------------
+   Toda a responsividade do site fica neste arquivo.
+   Os estilos base continuam em style.css (e loading.css).
+   Aqui adaptamos o layout para: celulares, tablets,
+   notebooks e TVs.
+   ============================================================ */
+
+/* Guarda global: impede barra de rolagem horizontal */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TELAS GRANDES / TV  (a partir de 1920px)
+   ============================================================ */
+@media (min-width: 1920px) {
+  .card {
+    max-width: 900px;
+  }
+
+  .card h1 {
+    font-size: 48px;
+  }
+}
+
+/* ============================================================
+   NOTEBOOKS PEQUENOS / TABLETS LANDSCAPE  (até 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .container {
+    padding: 24px;
+  }
+
+  .card {
+    padding: 32px;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+}
+
+/* ============================================================
+   TABLETS PORTRAIT  (até 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  .card {
+    padding: 28px;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+}
+
+/* ============================================================
+   CELULARES  (até 620px)
+   ============================================================ */
+@media (max-width: 620px) {
+  .card {
+    padding: 24px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .campo-botao {
+    flex-direction: column;
+  }
+
+  button {
+    height: 52px;
+  }
+
+  /* Clima: painel principal e detalhes em uma coluna */
+  #wf-details-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  #wf-main-temp {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #wf-extra-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Cards do Astrobot: imagem centralizada e ajustada à largura */
+  .jogar,
+  .Esporte {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .jogar h2,
+  .Esporte h2 {
+    margin-bottom: 14px;
+  }
+
+  .jogar img,
+  .Esporte img {
+    display: block;
+    position: static;
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    margin: 0 auto;
+    top: auto;
+    left: auto;
+  }
+}
+
+/* ============================================================
+   CELULARES PEQUENOS  (até 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .etiqueta {
+    font-size: 11px;
+  }
+
+  .campo-botao button {
+    width: 100%;
+  }
+
+  /* Barra de navegação mais compacta */
+  .nav-bar {
+    top: 10px;
+    right: 10px;
+    gap: 8px;
+  }
+
+  .nav-refresh {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav-time-container {
+    padding: 6px 12px;
+  }
+
+  .nav-time {
+    font-size: 14px;
+  }
+
+  /* Endereço empilhado */
+  .dados {
+    grid-template-columns: 1fr;
+  }
+
+  /* Clima */
+  #wf-temp-now {
+    font-size: 26px;
+  }
+
+  #wf-temp-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  #wf-extra-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .wf-stat-item {
+    padding: 10px;
+  }
+}
+
+/* ============================================================
+   SPLASH / TELA DE CARREGAMENTO  (loading.html)
+   ============================================================ */
+.splash img {
+  max-width: 90%;
+  height: auto;
+}
+
+@media (max-width: 620px) {
+  .div-svg {
+    padding: 0 12px;
+  }
+
+  .splash img {
+    max-width: 85%;
+  }
+}

@@ -213,26 +213,6 @@ button:disabled {
   display: none;
 }
 
-@media(max-width:620px) {
-
-  .card {
-    padding: 24px;
-  }
-
-  h1 {
-    font-size: 30px;
-  }
-
-  .campo-botao {
-    flex-direction: column;
-  }
-
-  button {
-    height: 52px;
-  }
-
-}
-
 .nav-bar {
   position: fixed;
   top: 15px;
@@ -534,21 +514,6 @@ button:disabled {
   color: #36d0ff;
 }
 
-@media(max-width:620px) {
-  #wf-details-wrapper {
-    grid-template-columns: 1fr;
-  }
-
-  #wf-main-temp {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  #wf-extra-stats {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 .luzes {
   position: fixed;
   inset: 0;
@@ -671,8 +636,8 @@ button:disabled {
   border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 12px;
   padding: 12px;
-  align-items: center;
-  gap: 2px;
+  min-height: 240px;
+  margin-top: 24px;
   transition: .25s;
   position: relative;
   cursor: pointer;
@@ -687,11 +652,8 @@ button:disabled {
   box-shadow: 0 12px 25px rgba(0, 0, 0, .2);
 }
 
-
 .jogar h2,
 .Esporte h2 {
-  gap: -90px;
-  right: 90px;
   text-align: center;
 }
 
@@ -705,54 +667,11 @@ button:disabled {
   z-index: 10;
 }
 
-
-.Esporte {
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 12px;
-  padding: 12px;
-  align-items: center;
-  gap: 2px;
-  transition: .25s;
-  position: relative;
-  cursor: pointer;
-  animation: aparecerCard .5s ease backwards;
-  animation-delay: .40s;
+.jogar img{
+left: 17vh;
 }
 
-.Esporte:hover {
-  transform: translateY(-5px);
-  border-color: rgba(54, 208, 255, .45);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, .2);
-}
-
-
-.Esporte h2 {
-  gap: -90px;
-  right: 90px;
-  text-align: center;
-}
-
-.Esporte img { 
-  width: 150px; 
-  height: auto; 
-  position: absolute;
-  top: -3vh;
-  left: 28vh;
-  z-index: 10;
-}
-
-
-.pose img { 
-  width: 75px; 
-  height: auto; 
-  position: absolute;
-  top: 10vh;
-  left: 50vh;
-  z-index: -10;
-}
-
-.fundo img {  
-  top: 10vh;
-  left: -900vh;
+.Esporte img {
+  width: 150px;
+  left: 35vh;
 }
