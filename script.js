@@ -3,6 +3,8 @@ const inputCep = document.querySelector('#cep');
 const botaoBuscar = document.querySelector('#botaoBuscar');
 const mensagem = document.querySelector('#mensagem');
 const resultado = document.querySelector('#resultado');
+const gifNaoEncontrado = document.querySelector('#gif-nao-encontrado');
+const gifSucesso = document.querySelector('#gif-sucesso');
 
 const logradouro = document.querySelector('#logradouro');
 const bairro = document.querySelector('#bairro');
@@ -45,7 +47,6 @@ async function buscarLocalizacao(endereco) {
 
     let lugar = dados && dados[0];
 
-    // Fallback: só cidade + UF (caso a rua não seja encontrada)
     if (!lugar && endereco.localidade) {
       const fallback = `${endereco.localidade}, ${endereco.uf}`;
       dados = await fetch(
@@ -63,7 +64,6 @@ async function buscarLocalizacao(endereco) {
         .bindPopup(consulta)
         .openPopup();
 
-      // Zoom maior quando achou a rua, menor no fallback da cidade
       mapa.setView([lat, lon], endereco.logradouro ? 16 : 11);
       mapaMensagem.innerText = '';
     } else {
@@ -108,6 +108,8 @@ evento.preventDefault();
 
   mensagem.innerText = '';
   resultado.classList.add('oculto');
+  gifNaoEncontrado.classList.add('oculto');
+  gifSucesso.classList.add('oculto');
 
 
 if (cep.length !== 8) {
@@ -136,6 +138,7 @@ const endereco = await resposta.json();
     if (endereco.erro) {
 
       mensagem.innerText = 'CEP não encontrado.';
+      gifNaoEncontrado.classList.remove('oculto');
 
       return;
 
@@ -150,10 +153,10 @@ const endereco = await resposta.json();
     ddd.innerText = endereco.ddd || 'Não informado';
 
     mensagem.innerText = 'Consulta realizada com sucesso!';
+    gifSucesso.classList.remove('oculto');
     resultado.classList.remove('oculto');
 
     buscarLocalizacao(endereco);
-    // Recalcula o tamanho do mapa depois que a seção fica visível
     setTimeout(() => { if (mapa) mapa.invalidateSize(); }, 100);
 
 if (endereco.localidade) {
@@ -163,7 +166,8 @@ if (endereco.localidade) {
   } catch (erro) {
 
       console.error(erro);
-      mensagem.innerText = 'Erro ao consultar o CEP. Verifique a internet e tente novamente.';
+      mensagem.innerText = 'Erro ao consultar o CEP. Tente novamente mais tarde.';
+      gifNaoEncontrado.classList.remove('oculto');
   
 } finally {
 
