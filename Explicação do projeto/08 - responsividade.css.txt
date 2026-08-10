@@ -1,0 +1,103 @@
+=========================================================
+responsividade.css - o site se adapta a cada tela
+=========================================================
+
+Esse arquivo é o "responsivo" do site. Tudo que é media query
+(ajuste por tamanho de tela) tá aqui, separado do style.css. Ele
+é carregado tanto no index.html quanto no loading.html.
+
+Separei de propósito: o style.css cuida do visual "base" e esse
+aqui cuida de "como se adapta a cada tela". Se eu misturasse,
+ia virar um arquivo gigante e difícil de achar as coisas.
+
+overflow-x: hidden (no html e body)
+===================================
+html, body { overflow-x: hidden; }
+- impede o scroll horizontal. Às vezes um elemento passa um
+  pouquinho da largura da tela (ex: as luzes de fundo ou um
+  astrobot posicionado com left/top) e isso cria uma "barra de
+  rolagem" no lado. Essa regra corta o que sobra na horizontal.
+  É um "cinto de segurança" pro layout.
+
+TELAS GIGANTES (min-width: 1920px)
+==================================
+.card { max-width: 900px; }
+.card h1 { font-size: 48px; }
+- em monitor gigante/4K, o card fica maior (900px) e o título
+  cresce. Senão o site ficaria "espremido" no meio de uma tela
+  enorme.
+
+NOTEBOOKS (max-width: 1024px)
+=============================
+.container { padding: 24px; }
+.card { padding: 32px; }
+h1 { font-size: 38px; }
+- quando a tela começa a diminuir, eu reduzo os espaços
+  internos (padding) e o título junto.
+
+TABLETS (max-width: 768px)
+==========================
+.card { padding: 28px; }
+h1 { font-size: 34px; }
+- mais um degrau de redução.
+
+CELULAR (max-width: 620px) - o ponto mais importante
+====================================================
+.campo-botao { flex-direction: column; }
+- o campo de CEP e o botão, que ficavam lado a lado, agora
+  empilham: input em cima, botão embaixo. Em tela estreita não
+  cabe os dois na mesma linha.
+
+button { height: 52px; }
+- botão mais alto pro dedo acertar fácil (padrão de celular).
+
+.astrobot-fundo2, .astrobot-fundo3 { left: auto; right: ...; }
+- no desktop os astrobots ficam "flutuando" do lado do form
+  (position absolute). No celular não tem esse espaço, então eles
+  vão pro canto direito e ficam menores (width: 84px / 50px).
+
+.astrobot-fundo img { width: 140px; }
+- o astrobot grande do rodapé também diminui.
+
+#wf-details-wrapper { grid-template-columns: 1fr; }
+#wf-main-temp { flex-direction: column; text-align: center; }
+- o card do clima vira 1 coluna e o conteúdo centraliza.
+
+.jogar img, .Esporte img { position: static; width: 100%;
+                           max-width: 220px; margin: 0 auto; }
+- os GIFs dos cartões: no desktop ficam "soltos" por cima do
+  cartão (position absolute + left). No celular isso quebra a
+  tela, então viram uma imagem NORMAL no fluxo (position:
+  static) e centralizada. O position: static é o que "desfaz"
+  o absolute.
+
+CELULAR PEQUENO (max-width: 480px)
+==================================
+.card { padding: 20px; border-radius: 16px; }
+h1 { font-size: 26px; }
+- mais redução, e o card arredonda menos (borda menor).
+
+.campo-botao button { width: 100%; }
+- o botão ocupa a linha inteira.
+
+.dados { grid-template-columns: 1fr; }
+- os dados do endereço (que no desktop ficam em grade) viram 1
+  coluna: um card embaixo do outro.
+
+#wf-extra-stats { grid-template-columns: 1fr; }
+- os stats do clima (máx/mín/umidade/vento) também empilham.
+
+.nav-bar, .nav-refresh, .nav-time-container { ... menores ... }
+- a barra do topo (botão refresh + relógio) fica mais compacta.
+
+PARTE DO LOADING
+================
+.splash img { max-width: 90%; }
+@media(max-width:620px) { .splash img { max-width: 85%; } }
+- o GIF da tela de carregamento também não pode estourar a
+  tela, então limito a largura por porcentagem.
+
+O MAPA NO CELULAR
+=================
+- o mapa não precisou de regra aqui: ele já tem width:100% no
+  style.css, então acompanha o tamanho do card sozinho.

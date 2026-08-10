@@ -69,6 +69,24 @@ GRID DOS DADOS DO ENDEREÇO
 - .dado-maior (o logradouro) ocupa a linha toda com
   grid-column: 1/-1.
 
+O MAPA
+======
+.mapa-container { margin-top: 24px; }
+#mapa { width: 100%; height: 320px; border-radius: 16px;
+        border: 1px solid var(--border); z-index: 1; }
+#mapa-mensagem { color: var(--text-light); font-size: 14px;
+                 margin-top: 8px; min-height: 20px; }
+
+- height: 320px é o detalhe que mais importa: a div#mapa nasce
+  vazia no HTML, então se eu não der altura o Leaflet desenha em
+  um retângulo de 0px e o mapa não aparece.
+- width: 100% deixa o mapa do tamanho do card, então já é
+  responsivo sem media query.
+- border-radius + border usam as mesmas cores/variáveis do card,
+  pra ficar "integrado" no visual.
+- #mapa-mensagem reserva espaço (min-height: 20px) pra tela não
+  "pular" quando o texto aparece.
+
 RELÓGIO FIXO
 ============
 .nav-time-container { position: fixed; top:15px; right:15px;
@@ -153,15 +171,17 @@ OS CARTÕES DE FICAR EM CASA / ESPORTE
 - quem liga/desliga eles é o condicao.js (display:none/block),
   o CSS só cuida da aparência.
 
-RESPONSIVO
-==========
-@media(max-width:620px) {
-  .campo-botao { flex-direction: column; }
-  #wf-details-wrapper { grid-template-columns: 1fr; }
-  #wf-main-temp { flex-direction: column; text-align:center; }
-}
-- <620px (celular): empilha campo+botão e empilha o card do
-  clima (1 coluna). O resto já era responsivo pelo grid/flex.
+RESPONSIVO (OBSERVAÇÃO)
+=======================
+- As media queries NÃO ficam aqui. Eu deixei todo o responsivo
+  num arquivo separado, o responsividade.css, que é carregado
+  tanto no index.html quanto no loading.html.
+- Separei de propósito: o style.css cuida do visual "base" e o
+  responsividade.css cuida de "como se adapta a cada tela". Se
+  eu misturasse, ia virar um arquivo gigante e difícil de achar
+  as coisas.
+- A explicação de cada quebra de tela (1920, 1024, 768, 620 e
+  480px) tá no "08 - responsividade.css.txt".
 
 LUZES ANIMADAS DE FUNDO
 =======================

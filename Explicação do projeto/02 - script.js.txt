@@ -5,6 +5,12 @@ script.js - o cérebro do projeto
 Referências (querySelector)
 ===========================
 Pego os elementos do DOM que vou usar. Nada demais.
+Além dos do form, tenho os do mapa:
+  const mapaDiv = document.querySelector('#mapa');
+  const mapaMensagem = document.querySelector('#mapa-mensagem');
+E duas variáveis de estado do mapa:
+  let mapa = null;      // vai guardar o objeto Leaflet
+  let marcador = null;  // vai guardar o marcador atual
 
 FORMATAÇÃO DO CEP (enquanto digita)
 ===================================
@@ -68,6 +74,44 @@ try {
   !resposta.ok (problema de rede/serviço) e endereco.erro
   (CEP inexistente). São coisas diferentes e eu trato as duas.
 
+PARTE DO MAPA
+=============
+Antes do submit eu tenho duas funções dedicadas ao mapa.
+
+inicializarMapa()
+- Cria o mapa só UMA vez. Se ele já existe, não recria (por
+  isso o "if (mapa) return;" no começo) — senão a cada busca ia
+  nascer um mapa novo por cima do outro.
+- mapa = L.map(mapaDiv) recebe o elemento onde vou desenhar.
+- setView([-15.78, -47.93], 4) começa mostrando o Brasil (4 é o
+  zoom; zoom baixo = país inteiro na tela).
+- L.tileLayer(...) carrega o "mapa em si", os pedacinhos de
+  imagem (tiles) do OpenStreetMap. O Leaflet sozinho não tem
+  mapa nenhum — ele só desenha o que a gente manda carregar.
+- maxZoom: 19 e a attribution (crédito obrigatório do OSM).
+
+buscarLocalizacao(endereco)
+- Chama inicializarMapa() e escreve "Buscando localização..." na
+  mensagem.
+- Monta uma consulta com logradouro + bairro + cidade + UF + CEP
+  (o filter(Boolean) tira os campos vazios).
+- Manda pro Nominatim:
+    https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=...
+- O Nominatim é tipo um "tradutor": você manda o endereço
+  escrito e ele devolve a latitude/longitude de onde aquilo fica
+  (o format=jsonv2 só diz que a resposta vem em JSON).
+- Plano B: se a rua não for achada, tento de novo só com
+  "cidade, UF". Por quê? Porque às vezes o OpenStreetMap ainda
+  não tem a rua cadastrada, mas a cidade sempre tá lá.
+- Com o lugar: remove o marcador antigo (marcador.remove()),
+  cria um novo (L.marker([lat, lon])) com um popup mostrando o
+  endereço, e dá zoom pro ponto.
+- setView com zoom 16 se achou a rua, ou 11 se caiu no fallback
+  da cidade (16 é nível de rua, 11 é de bairro/cidade).
+- Se nada achar: mensagem "Localização não encontrada para este
+  CEP." O catch pega erro de rede/rate-limit e mostra "Não foi
+  possível carregar o mapa." — em nenhum caso o app quebra.
+
 PREENCHENDO O ENDEREÇO
 ======================
   logradouro.innerText = endereco.logradouro || 'Não informado';
@@ -79,6 +123,9 @@ PREENCHENDO O ENDEREÇO
   mensagem.innerText = 'Consulta realizada com sucesso!';
   resultado.classList.remove('oculto');
 
+  buscarLocalizacao(endereco);
+  setTimeout(() => { if (mapa) mapa.invalidateSize(); }, 100);
+
   if (endereco.localidade) {
     buscarClima(endereco.localidade, endereco.uf);
   }
@@ -87,6 +134,13 @@ PREENCHENDO O ENDEREÇO
   "uf". Não é nome que eu escolhi, é o nome do campo da API.
 - O || 'Não informado' cobre campo vazio (ex: CEP que não tem
   bairro preenchido).
+- buscarLocalizacao(endereco) dispara o mapa com o endereço
+  (explicado na PARTE DO MAPA acima).
+- invalidateSize() é OBRIGATÓRIO: o #resultado nasce com
+  display:none, então o Leaflet calcula o tamanho do mapa
+  errado (altura 0). Depois que a seção aparece, eu aviso o
+  Leaflet pra recalcular. O setTimeout de 100ms dá tempo pro CSS
+  aplicar o display antes do Leaflet medir.
 - Só busco o clima se veio a cidade (senão não tem o que
   pesquisar).
 

@@ -20,6 +20,20 @@ HEAD
   aba de novo, aparece o loading de novo. Eu queria que fosse
   assim mesmo.
 
+CDNs DO MAPA
+============
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+- São os arquivos da biblioteca Leaflet (a que desenha o mapa).
+- Vêm de um CDN (servidor público) porque eu não quero baixar e
+  versionar uma biblioteca gigante no meu projeto. Só aponto pra
+  internet e uso.
+- A ordem importa: o CSS do Leaflet entra no <head> e o JS entra
+  no final do body, ANTES do meu script.js — porque o meu código
+  usa o "L" que o Leaflet define. Se viesse depois, meu script
+  quebraria.
+
 BODY / ESTRUTURA
 ================
 luzes
@@ -41,6 +55,22 @@ resultado (endereço)
   O "oculto" é display:none; só mostro depois que a API
   respondeu. Cada campo (logradouro, bairro, cidade, estado,
   ddd) tem um id que o script preenche.
+
+LOCALIZAÇÃO (o mapa)
+====================
+<div class="mapa-container">
+  <h2>Localização</h2>
+  <div id="mapa" role="region" aria-label="Mapa da localização do CEP"></div>
+  <p id="mapa-mensagem" aria-live="polite"></p>
+</div>
+
+- A div#mapa é onde o Leaflet vai desenhar o mapa. Ela nasce
+  VAZIA e sem tamanho no HTML — quem dá altura é o CSS (320px) e
+  quem desenha dentro é o JS.
+- role="region" e aria-live são detalhes de acessibilidade (pra
+  leitor de tela). Pequenas coisas que contam ponto.
+- p#mapa-mensagem é onde eu mostro "Buscando localização..." ou
+  um erro, no mesmo esquema do p#mensagem do form.
 
 CLIMA (a parte que eu caprichei)
 ================================

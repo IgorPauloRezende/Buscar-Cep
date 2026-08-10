@@ -10,6 +10,71 @@ const cidade = document.querySelector('#cidade');
 const estado = document.querySelector('#estado');
 const ddd = document.querySelector('#ddd');
 
+const mapaDiv = document.querySelector('#mapa');
+const mapaMensagem = document.querySelector('#mapa-mensagem');
+
+let mapa = null;
+let marcador = null;
+
+function inicializarMapa() {
+  if (mapa) return;
+  mapa = L.map(mapaDiv).setView([-15.78, -47.93], 4); // Brasil
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(mapa);
+}
+
+async function buscarLocalizacao(endereco) {
+  try {
+    inicializarMapa();
+    mapaMensagem.innerText = 'Buscando localização...';
+
+    const partes = [
+      endereco.logradouro,
+      endereco.bairro,
+      endereco.localidade,
+      endereco.uf,
+      endereco.cep
+    ].filter(Boolean);
+    const consulta = partes.join(', ');
+
+    let dados = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(consulta)}`
+    ).then((r) => r.json());
+
+    let lugar = dados && dados[0];
+
+    // Fallback: só cidade + UF (caso a rua não seja encontrada)
+    if (!lugar && endereco.localidade) {
+      const fallback = `${endereco.localidade}, ${endereco.uf}`;
+      dados = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(fallback)}`
+      ).then((r) => r.json());
+      lugar = dados && dados[0];
+    }
+
+    if (lugar) {
+      const lat = parseFloat(lugar.lat);
+      const lon = parseFloat(lugar.lon);
+
+      if (marcador) marcador.remove();
+      marcador = L.marker([lat, lon]).addTo(mapa)
+        .bindPopup(consulta)
+        .openPopup();
+
+      // Zoom maior quando achou a rua, menor no fallback da cidade
+      mapa.setView([lat, lon], endereco.logradouro ? 16 : 11);
+      mapaMensagem.innerText = '';
+    } else {
+      mapaMensagem.innerText = 'Localização não encontrada para este CEP.';
+    }
+  } catch (erro) {
+    console.error('Erro ao buscar localização:', erro);
+    mapaMensagem.innerText = 'Não foi possível carregar o mapa.';
+  }
+}
+
 
 
 function ajustarPlaceholder() {
@@ -86,6 +151,10 @@ const endereco = await resposta.json();
 
     mensagem.innerText = 'Consulta realizada com sucesso!';
     resultado.classList.remove('oculto');
+
+    buscarLocalizacao(endereco);
+    // Recalcula o tamanho do mapa depois que a seção fica visível
+    setTimeout(() => { if (mapa) mapa.invalidateSize(); }, 100);
 
 if (endereco.localidade) {
       buscarClima(endereco.localidade, endereco.uf);

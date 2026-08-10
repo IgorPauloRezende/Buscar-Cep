@@ -20,6 +20,14 @@ com tempestade, aparece um cartão falando pra ficar em casa. Se
 o tempo tiver bom, aparece outro falando pra sair e praticar um
 esporte. Simples, mas dá um charme pro site.
 
+E o toque final: quando o endereço aparece, um mapa mostra onde
+aquele CEP fica. Pra isso uso mais dois serviços de graça:
+Leaflet (biblioteca que desenha o mapa) + OpenStreetMap (as
+imagens do mapa) e o Nominatim (que transforma endereço em
+latitude/longitude). Como a ViaCEP não devolve coordenada, é o
+Nominatim que faz essa "tradução" e o mapa coloca um marcador no
+lugar certo.
+
 ARQUIVOS
 ========
 - index.html ........ página principal (form + resultado)
@@ -31,12 +39,20 @@ ARQUIVOS
 - clock.js .......... relógio de Brasília
 - video/ ............ os vídeos de cada clima
 
+Além dos arquivos, tem 2 coisas que vêm prontas da internet
+(CDN), não são arquivos meus:
+- Leaflet ........... biblioteca de mapa (CSS + JS)
+- OpenStreetMap ..... as imagens do mapa + a API Nominatim pra
+  transformar endereço em latitude/longitude
+
 FLUXO
 =====
 1. Primeira vez que abre: cai no loading (animação GSAP).
 2. Uso sessionStorage pra não repetir o loading na mesma sessão.
 3. Vai pro index: o usuário digita o CEP.
 4. script.js chama a ViaCEP -> preenche o endereço.
-5. Com a cidade, chama a OpenWeatherMap -> preenche o clima.
-6. Pelo código/descrição do clima, mostra o vídeo certo e o
+5. Com o endereço, chama o Nominatim -> acha latitude/longitude
+   e coloca o marcador no mapa (Leaflet + OpenStreetMap).
+6. Com a cidade, chama a OpenWeatherMap -> preenche o clima.
+7. Pelo código/descrição do clima, mostra o vídeo certo e o
    cartão certo (ficar em casa ou esporte).

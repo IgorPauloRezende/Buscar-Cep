@@ -1,6 +1,6 @@
 # 🚀 Buscar-Cep
 
-Uma aplicação web que consulta o **endereço completo** a partir de um CEP e mostra o **clima atual da cidade**, com uma tela de carregamento animada e visual dinâmico que muda de acordo com o tempo.
+Uma aplicação web que consulta o **endereço completo** a partir de um CEP, mostra a **localização no mapa** e o **clima atual da cidade**, com uma tela de carregamento animada e visual dinâmico que muda de acordo com o tempo.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -11,6 +11,7 @@ Uma aplicação web que consulta o **endereço completo** a partir de um CEP e m
 ## ✨ Funcionalidades
 
 - 🔎 **Consulta de CEP**: digite um CEP e veja logradouro, bairro, cidade, estado e DDD.
+- 🗺️ **Mapa da localização**: ao consultar o CEP, um mapa interativo (Leaflet + OpenStreetMap) mostra o endereço com um marcador e popup.
 - ⛅ **Clima em tempo real**: ao encontrar a cidade, exibe temperatura atual, máxima, mínima, umidade, vento e descrição do tempo.
 - 🎬 **Vídeos de fundo dinâmicos**: o cenário do clima muda conforme a condição do tempo (céu limpo, nublado, chuva leve, pancadas de chuva, poucas nuvens).
 - 🤖 **Seleção inteligente de cartão**: mostra um card de "tempo bom para ficar em casa" quando chove, ou "tempo bom para praticar um esporte" quando o tempo está bom.
@@ -23,6 +24,8 @@ Uma aplicação web que consulta o **endereço completo** a partir de um CEP e m
 
 - **ViaCEP** — API pública de consulta de CEP (https://viacep.com.br)
 - **OpenWeatherMap** — API de previsão do tempo (https://openweathermap.org)
+- **Leaflet** — biblioteca de mapas interativos (https://leafletjs.com)
+- **OpenStreetMap / Nominatim** — mapas e geocodificação gratuitos (https://www.openstreetmap.org)
 - **GSAP + DrawSVGPlugin** — animação da tela de carregamento
 - **Font Awesome** — ícones
 - **HTML5, CSS3 e JavaScript** (vanilla)
@@ -61,13 +64,15 @@ Usuário digita o CEP
 │  API ViaCEP      │  → Retorna logradouro, bairro, cidade, UF e DDD
 └──────────────────┘
         │
-        ▼
-┌──────────────────┐
-│ OpenWeatherMap   │  → Retorna temperatura, umidade, vento e condição
-└──────────────────┘
-        │
-        ▼
-Exibe endereço + clima + vídeo de fundo + cartão (casa/esporte)
+        ├──────────────────────────────┐
+        ▼                              ▼
+┌──────────────────────────┐  ┌──────────────────────┐
+│ Nominatim (OpenStreetMap)│  │    OpenWeatherMap     │
+│ → latitude/longitude     │  │ → clima da cidade     │
+└──────────────────────────┘  └──────────────────────┘
+        │                              │
+        ▼                              ▼
+Exibe endereço + mapa (Leaflet) + clima + vídeo de fundo + cartão (casa/esporte)
 ```
 
 ---
@@ -99,6 +104,7 @@ Buscar-Cep/
 ```
 CEP: 01001-000
 → Praça da Sé, Sé, São Paulo, SP, DDD: 11
+→ Mapa: marcador na Praça da Sé (São Paulo)
 → Clima: 24°C, poucas nuvens
 ```
 

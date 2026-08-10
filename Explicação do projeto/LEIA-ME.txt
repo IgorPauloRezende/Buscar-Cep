@@ -7,12 +7,18 @@ Ordem pra revisar antes da apresentação:
 00 - VISÃO GERAL ......... o que o projeto faz, fluxo, arquivos
 01 - index.html .......... estrutura da página + os <video>
 02 - script.js ........... consumo das APIs + lógica dos vídeos
-03 - style.css ........... visual, vídeos e responsivo
+03 - style.css ........... visual base (sem o responsivo)
 04 - clock.js ............ relógio de Brasília
 05 - loading.html ........ splash screen (GSAP)
 06 - loading.css ......... visual do loading
 07 - dicas para apresentação .... respostas curtas pras perguntas
+08 - responsividade.css .. como o site se adapta a cada tela
 
 Obs: a lógica dos cartões de "ficar em casa / praticar esporte"
 fica no condicao.js, mas eu expliquei ela dentro do 02 (script.js)
 e no 07 (dicas), junto com o fluxo do clima.
+Obs2: o mapa (Leaflet + OpenStreetMap + Nominatim) também tá
+explicado dentro do 02 (script.js) e do 07 (dicas), e aparece no
+00 (visão geral), no 01 (index.html) e no 03 (style.css).
+Obs3: o responsivo (media queries) tá separado no 08, porque o
+style.css (03) só cuida do visual base.

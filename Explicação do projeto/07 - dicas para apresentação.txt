@@ -8,16 +8,21 @@ professor. Respostas rápidas, no meu estilo.
 O QUE O PROJETO FAZ?
 ====================
 Consulta CEP pela API ViaCEP e, com a cidade, busca o clima na
-OpenWeatherMap. Mostra endereço + temperatura/umidade/vento + um
-vídeo de fundo que troca conforme o clima. E ainda decide se é
-melhor ficar em casa ou sair pra praticar um esporte.
+OpenWeatherMap. Mostra endereço + um mapa com a localização do
+CEP + temperatura/umidade/vento + um vídeo de fundo que troca
+conforme o clima. E ainda decide se é melhor ficar em casa ou
+sair pra praticar um esporte.
 
 QUAIS "NUVENS" VOCÊ USOU?
 =========================
 Não inventei nada, usei serviços de nuvem de verdade:
 - ViaCEP (consulta de endereço/CEP)
 - OpenWeatherMap (clima)
-As duas são APIs acessadas pela internet (a nuvem). Por isso o
+- OpenStreetMap + Nominatim (imagens do mapa + geocodificação)
+E uma biblioteca que roda no navegador mas busca os dados na
+nuvem:
+- Leaflet (desenha o mapa)
+Tudo isso é acessado pela internet (a nuvem). Por isso o
 projeto é de Computação em Nuvem.
 
 POR QUE async/await?
@@ -61,6 +66,40 @@ forte, então leio a descrição pra separar. E juntei os códigos
 tempestade não passar batida. Às vezes a API devolve descrição em
 inglês dependendo da config, então trato os dois.
 
+COMO FUNCIONA O MAPA?
+=====================
+A ViaCEP devolve o endereço, mas NÃO devolve latitude/longitude.
+Então eu pego o endereço e mando pro Nominatim (API de
+geocodificação do OpenStreetMap), que "traduz" o endereço em
+coordenadas. Aí o Leaflet desenha o mapa e coloca um marcador
+nesse ponto, com um popup mostrando o endereço. Se a rua não for
+achada, tento de novo só com cidade+UF e coloco o marcador na
+cidade (com zoom menor).
+
+POR QUE USAR LEAVELET + OPENSTREETMAP E NÃO GOOGLE MAPS?
+========================================================
+Porque é gratuito e sem API key. O Google Maps cobra e pede
+cadastro/cartão de crédito. O Leaflet é uma biblioteca open
+source e o OpenStreetMap é colaborativo e livre. Pra um projeto
+de estudo não faz sentido pagar por isso.
+
+POR QUE A VIACEP NÃO DÁ A COORDENADA?
+=====================================
+Porque ela é um serviço especializado só em CEP/endereço
+brasileiro: devolve o TEXTO do endereço (rua, bairro, cidade),
+não a posição no mapa. Transformar texto em coordenada é o
+trabalho de outro serviço (o Nominatim). Por isso eu preciso dos
+dois: um dá o endereço, o outro dá a posição.
+
+O QUE É O invalidateSize? POR QUE PRECISA DELE?
+===============================================
+O Leaflet calcula o tamanho do mapa quando é criado. O problema:
+a div do mapa nasce escondida (display:none), então ele calcula
+altura 0. Depois que mostro o resultado, chamo mapa.invalidateSize()
+pra avisar o Leaflet "meça de novo agora que você tá visível".
+Sem isso o mapa aparece cortado ou vazio. O setTimeout de 100ms
+garante que o CSS já aplicou o display antes do Leaflet medir.
+
 POR QUE A TELA DE CARREGAMENTO NÃO APARECE TODA HORA?
 =====================================================
 Uso sessionStorage. Depois que o loading termina eu marco a flag
@@ -93,6 +132,11 @@ SE PERGUNTAREM "O QUE VOCÊ APRENDEU":
 - tratar erros (try/catch/finally)
 - manipular o DOM (querySelector, classList, innerText)
 - MutationObserver pra reagir a mudança de classe
+- geocodificação: transformar endereço em latitude/longitude com
+  o Nominatim
+- integrar uma biblioteca de mapa (Leaflet) com uma API de mapa
+  (OpenStreetMap)
+- invalidateSize e o problema de elemento escondido (display:none)
 - CSS moderno (flexbox, grid, variáveis, clamp, backdrop-filter)
 - responsividade com media query e grid auto-fit
 - animações com GSAP
