@@ -102,7 +102,7 @@ inputCep.addEventListener('input', () => {
 
 
 formCep.addEventListener('submit', async (evento) => {
-evento.preventDefault();
+  evento.preventDefault();
 
   const cep = inputCep.value.replace(/\D/g, '');
 
@@ -112,7 +112,7 @@ evento.preventDefault();
   gifSucesso.classList.add('oculto');
 
 
-if (cep.length !== 8) {
+  if (cep.length !== 8) {
     mensagem.innerText = 'Digite um CEP válido com 8 números.';
     inputCep.focus();
     return;
@@ -125,7 +125,7 @@ if (cep.length !== 8) {
     mensagem.innerText = 'Consultando a API ViaCEP...';
 
 
-const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
 
     if (!resposta.ok) {
 
@@ -133,7 +133,7 @@ const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
 
     }
 
-const endereco = await resposta.json();
+    const endereco = await resposta.json();
 
     if (endereco.erro) {
 
@@ -159,22 +159,22 @@ const endereco = await resposta.json();
     buscarLocalizacao(endereco);
     setTimeout(() => { if (mapa) mapa.invalidateSize(); }, 100);
 
-if (endereco.localidade) {
+    if (endereco.localidade) {
       buscarClima(endereco.localidade, endereco.uf);
     }
 
   } catch (erro) {
 
-      console.error(erro);
-      mensagem.innerText = 'Erro ao consultar o CEP. Tente novamente mais tarde.';
-      gifNaoEncontrado.classList.remove('oculto');
-  
-} finally {
+    console.error(erro);
+    mensagem.innerText = 'Erro ao consultar o CEP. Tente novamente mais tarde.';
+    gifNaoEncontrado.classList.remove('oculto');
 
-      botaoBuscar.disabled = false;
-      botaoBuscar.innerText = 'Buscar';
-    }
-    
+  } finally {
+
+    botaoBuscar.disabled = false;
+    botaoBuscar.innerText = 'Buscar';
+  }
+
 });
 
 const botaoRecarregar = document.querySelector('#botaoRecarregar');
@@ -209,16 +209,16 @@ async function buscarClima(cidade, uf) {
       wfLocation.innerText = `${json.name}, ${uf || json.sys.country}`;
       wfTempNow.innerHTML = `${Math.round(json.main.temp)}&deg;C`;
       wfDescription.innerText = json.weather[0].description;
-wfTempIcon.src = `https://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`;
+      wfTempIcon.src = `https://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`;
       wfTempMax.innerHTML = `${Math.round(json.main.temp_max)}&deg;C`;
       wfTempMin.innerHTML = `${Math.round(json.main.temp_min)}&deg;C`;
       wfHumidity.innerText = `${json.main.humidity}%`;
       wfWind.innerText = `${json.wind.speed.toFixed(1)} km/h`;
 
-const icone = json.weather[0].icon;
+      const icone = json.weather[0].icon;
       const descricao = (json.weather[0].description || '').toLowerCase();
 
-wfMainTemp.classList.remove('video-nublado', 'video-chuva', 'video-ceu-limpo', 'video-poucas', 'video-pancadas');
+      wfMainTemp.classList.remove('video-nublado', 'video-chuva', 'video-ceu-limpo', 'video-poucas', 'video-pancadas');
 
       if (descricao.includes('chuva leve') || descricao.includes('light rain')) {
         wfMainTemp.classList.add('video-chuva');

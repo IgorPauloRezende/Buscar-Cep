@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta de CEP</title>
   <link rel="stylesheet" href="style.css">
@@ -15,6 +16,7 @@
     }
   </script>
 </head>
+
 <body>
   <div class="luzes">
     <div class="luz luz-1"></div>
@@ -23,14 +25,18 @@
     <div class="luz luz-4"></div>
   </div>
   <div class="nav-bar">
+    <button type="button" class="nav-refresh" id="botaoRecarregar" aria-label="Recarregar página"
+      title="Recarregar página">
+      <i class="fa-solid fa-rotate"></i>
+    </button>
     <button
       type="button"
       class="nav-refresh"
-      id="botaoRecarregar"
-      aria-label="Recarregar página"
-      title="Recarregar página"
+      id="botaoFesta"
+      aria-label="Modo festa"
+      title="Modo festa"
     >
-      <i class="fa-solid fa-rotate"></i>
+      <i class="fa-solid fa-music"></i>
     </button>
     <div class="nav-time-container">
       <span class="nav-time" id="brasilia-clock">00:00</span>
@@ -47,26 +53,29 @@
         <label for="cep">CEP</label>
 
         <div class="campo-botao">
-          <input
-            type="text"
-            id="cep"
-            placeholder="Digite o CEP para buscar a sua escolha"
-            maxlength="9"
-            autocomplete="postal-code"
-          >
+          <input type="text" id="cep" placeholder="Digite o CEP para buscar a sua escolha" maxlength="9"
+            autocomplete="postal-code">
           <button type="submit" id="botaoBuscar">Buscar</button>
         </div>
 
         <div class="astrobot-fundo2">
-          <img src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot6.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Ni5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxODQzLCJleHAiOjMxNTUzNTQ3OTU4NDN9.ZerCbGrzZ1T3w7QQCfVxwWf0wEa7DNOc5uSkr1nCMcs" alt="Astrobot6">
+          <img
+            src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot6.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Ni5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxODQzLCJleHAiOjMxNTUzNTQ3OTU4NDN9.ZerCbGrzZ1T3w7QQCfVxwWf0wEa7DNOc5uSkr1nCMcs"
+            alt="Astrobot6">
           <div class="astrobot-fundo3">
-<img src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/Astrobot.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL0FzdHJvYm90LmdpZiIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODYzMzE1NjAsImV4cCI6MzE1NTM1NDc5NTU2MH0.e5JC8JvMjSkLJtvxhs0TP79kIJV7KwNy7qhT1nHC4pE" alt="Astrobot">
+            <img
+              src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/Astrobot.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL0FzdHJvYm90LmdpZiIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODYzMzE1NjAsImV4cCI6MzE1NTM1NDc5NTU2MH0.e5JC8JvMjSkLJtvxhs0TP79kIJV7KwNy7qhT1nHC4pE"
+              alt="Astrobot">
           </div>
         </div>
 
         <p id="mensagem" class="mensagem" aria-live="polite"></p>
-        <img id="gif-nao-encontrado" class="nao-encontrado oculto" src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot7.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Ny5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzM0MDgwLCJleHAiOjMxNTUzNTQ3OTgwODB9.aNrqkMS9_7ld5uediymNaPohpQjZdYKSeFFCB90dvtw" alt="CEP não encontrado">
-        <img id="gif-sucesso" class="sucesso oculto" src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot8.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90OC5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzM0NTg5LCJleHAiOjMxNTUzNTQ3OTg1ODl9.WYtP09qXrRDbQUib4nCXR7SX5kh7gwoeiAX84DQF6A0" alt="Consulta realizada com sucesso">
+        <img id="gif-nao-encontrado" class="nao-encontrado oculto"
+          src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot7.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Ny5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzM0MDgwLCJleHAiOjMxNTUzNTQ3OTgwODB9.aNrqkMS9_7ld5uediymNaPohpQjZdYKSeFFCB90dvtw"
+          alt="CEP não encontrado">
+        <img id="gif-sucesso" class="sucesso oculto"
+          src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot8.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90OC5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzM0NTg5LCJleHAiOjMxNTUzNTQ3OTg1ODl9.WYtP09qXrRDbQUib4nCXR7SX5kh7gwoeiAX84DQF6A0"
+          alt="Consulta realizada com sucesso">
       </form>
 
       <section id="resultado" class="resultado oculto">
@@ -93,7 +102,7 @@
             <strong id="estado">-</strong>
           </div>
 
-<div class="dado">
+          <div class="dado">
             <span>DDD</span>
             <strong id="ddd">-</strong>
           </div>
@@ -109,21 +118,31 @@
         <div id="wf-weather-result" class="clima">
           <h1 id="wf-location-title">-</h1>
           <div id="wf-details-wrapper">
-<div id="wf-main-temp">
+            <div id="wf-main-temp">
               <video id="wf-temp-video" autoplay muted loop playsinline>
-                <source src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Nublado/14262265_3840_2160_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvTnVibGFkby8xNDI2MjI2NV8zODQwXzIxNjBfMzBmcHMubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjMzMTI1MywiZXhwIjoyMDcwMTU1MjUzfQ.ImwbNYoolSpioHUx-_DzzFTjfuslI4j6f8f4iW5gDNs" type="video/mp4">
+                <source
+                  src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Nublado/14262265_3840_2160_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvTnVibGFkby8xNDI2MjI2NV8zODQwXzIxNjBfMzBmcHMubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjMzMTI1MywiZXhwIjoyMDcwMTU1MjUzfQ.ImwbNYoolSpioHUx-_DzzFTjfuslI4j6f8f4iW5gDNs"
+                  type="video/mp4">
               </video>
               <video id="wf-temp-video-chuva" autoplay muted loop playsinline>
-                <source src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Chuva%20leve/3920803-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvQ2h1dmEgbGV2ZS8zOTIwODAzLWhkXzE5MjBfMTA4MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzIxLCJleHAiOjIwNzAxNTUzMjF9.2Cq-2wkBVZ6BE7bOvTDFCXpHaOp6_SVvclEwfbABTbI" type="video/mp4">
+                <source
+                  src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Chuva%20leve/3920803-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvQ2h1dmEgbGV2ZS8zOTIwODAzLWhkXzE5MjBfMTA4MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzIxLCJleHAiOjIwNzAxNTUzMjF9.2Cq-2wkBVZ6BE7bOvTDFCXpHaOp6_SVvclEwfbABTbI"
+                  type="video/mp4">
               </video>
               <video id="wf-temp-video-ceu-limpo" autoplay muted loop playsinline>
-                <source src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/5727666-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvNTcyNzY2Ni1oZF8xOTIwXzEwODBfMzBmcHMubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjMzMTEwOCwiZXhwIjoyMDcwMTU1MTA4fQ.FFBrEyaPch6ewJUBzrQFWYBNVUehekvppK-OFKbWJ-U" type="video/mp4">
+                <source
+                  src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/5727666-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvNTcyNzY2Ni1oZF8xOTIwXzEwODBfMzBmcHMubXA0Iiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjMzMTEwOCwiZXhwIjoyMDcwMTU1MTA4fQ.FFBrEyaPch6ewJUBzrQFWYBNVUehekvppK-OFKbWJ-U"
+                  type="video/mp4">
               </video>
               <video id="wf-temp-video-poucas" autoplay muted loop playsinline>
-                <source src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Poucas%20nuvens/2252790-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvUG91Y2FzIG51dmVucy8yMjUyNzkwLWhkXzE5MjBfMTA4MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzU2LCJleHAiOjMxNTUzNTQ3OTUzNTZ9.g1qvRZRkBK0yHVU1HK6-Z2y3hBTkr3fZK4j_0anJs2w" type="video/mp4">
+                <source
+                  src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Poucas%20nuvens/2252790-hd_1920_1080_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvUG91Y2FzIG51dmVucy8yMjUyNzkwLWhkXzE5MjBfMTA4MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzU2LCJleHAiOjMxNTUzNTQ3OTUzNTZ9.g1qvRZRkBK0yHVU1HK6-Z2y3hBTkr3fZK4j_0anJs2w"
+                  type="video/mp4">
               </video>
               <video id="wf-temp-video-pancadas" autoplay muted loop playsinline>
-                <source src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Pancadas%20de%20chuva/11933681-uhd_3840_2160_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvUGFuY2FkYXMgZGUgY2h1dmEvMTE5MzM2ODEtdWhkXzM4NDBfMjE2MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzg0LCJleHAiOjMxNTUzNTQ3OTUzODR9.lvhELOK_9Z_SGBftGS5XGmAOA17v7zP-y0az3eJTwh4" type="video/mp4">
+                <source
+                  src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/Pancadas%20de%20chuva/11933681-uhd_3840_2160_30fps.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvUGFuY2FkYXMgZGUgY2h1dmEvMTE5MzM2ODEtdWhkXzM4NDBfMjE2MF8zMGZwcy5tcDQiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxMzg0LCJleHAiOjMxNTUzNTQ3OTUzODR9.lvhELOK_9Z_SGBftGS5XGmAOA17v7zP-y0az3eJTwh4"
+                  type="video/mp4">
               </video>
               <img id="wf-temp-icon" src="" alt="Ícone do tempo">
               <div>
@@ -162,25 +181,33 @@
               </div>
             </div>
           </div>
-</div>
+        </div>
 
-<div class="jogar">
-  <h2>Tempo bom para ficar em casa</h2>
-  <img src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot2.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Mi5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxNjM2LCJleHAiOjMxNTUzNTQ3OTU2MzZ9.-sPK__SG0VXysoFm9ikjWpY1YHtipnPsqjl6JRzQBwY" alt="Astrobot2">
-</div>
+        <div class="jogar">
+          <h2>Tempo bom para ficar em casa</h2>
+          <img
+            src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot2.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90Mi5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxNjM2LCJleHAiOjMxNTUzNTQ3OTU2MzZ9.-sPK__SG0VXysoFm9ikjWpY1YHtipnPsqjl6JRzQBwY"
+            alt="Astrobot2">
+        </div>
 
-<div class="Esporte">
-  <h2>Tempo bom para praticar um esporte</h2>
-  <img src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot5.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90NS5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxODE2LCJleHAiOjMxNTUzNTQ3OTU4MTZ9.7PJPMoH6AkIu4dMKB7olr-cWyzG6v97su5Hyo0edn8Q" alt="Astrobot5">
-</div>
+        <div class="Esporte">
+          <h2>Tempo bom para praticar um esporte</h2>
+          <img
+            src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot5.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90NS5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxODE2LCJleHAiOjMxNTUzNTQ3OTU4MTZ9.7PJPMoH6AkIu4dMKB7olr-cWyzG6v97su5Hyo0edn8Q"
+            alt="Astrobot5">
+        </div>
       </section>
     </section>
   </main>
   <div class="astrobot-fundo">
-  <img src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot3.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90My5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxNzEwLCJleHAiOjMxNTUzNTQ3OTU3MTB9.kIrEtt5oHwwAlGkR3W9CSVS7gys557at7ox8KAwDCLA" alt="Astrobot3">
+    <img
+      src="https://aoqbeovctdonswxnkirl.supabase.co/storage/v1/object/sign/web/images/astrobot3.gif?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNzgzN2NiNC1mNjdkLTQyZjUtYjg3Mi00NTFmZjE0Y2NkYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ3ZWIvaW1hZ2VzL2FzdHJvYm90My5naWYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2MzMxNzEwLCJleHAiOjMxNTUzNTQ3OTU3MTB9.kIrEtt5oHwwAlGkR3W9CSVS7gys557at7ox8KAwDCLA"
+      alt="Astrobot3">
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="condicao.js"></script>
   <script src="script.js"></script>
+  <script src="festa.js"></script>
 </body>
+
 </html>
