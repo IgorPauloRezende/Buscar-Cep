@@ -17,6 +17,7 @@ Uma aplicação web que consulta o **endereço completo** a partir de um CEP, mo
 - 🤖 **Seleção inteligente de cartão**: mostra um card de "tempo bom para ficar em casa" quando chove, ou "tempo bom para praticar um esporte" quando o tempo está bom.
 - 💫 **Splash screen animada**: tela de carregamento com animação SVG (GSAP + DrawSVGPlugin).
 - 🕐 **Relógio de Brasília**: hora atual exibida na barra de navegação.
+- 🎉 **Modo festa**: botão de música na barra de navegação que troca os GIFs da página por versões de festa; clique de novo para voltar ao normal.
 
 ---
 
@@ -26,6 +27,7 @@ Uma aplicação web que consulta o **endereço completo** a partir de um CEP, mo
 - **OpenWeatherMap** — API de previsão do tempo (https://openweathermap.org)
 - **Leaflet** — biblioteca de mapas interativos (https://leafletjs.com)
 - **OpenStreetMap / Nominatim** — mapas e geocodificação gratuitos (https://www.openstreetmap.org)
+- **Supabase (Storage)** — armazenamento em nuvem dos GIFs e vídeos do projeto (https://supabase.com)
 - **GSAP + DrawSVGPlugin** — animação da tela de carregamento
 - **Font Awesome** — ícones
 - **HTML5, CSS3 e JavaScript** (vanilla)
@@ -88,8 +90,9 @@ Buscar-Cep/
 ├── script.js           # Lógica da consulta de CEP e clima
 ├── condicao.js         # Escolhe o cartão (casa/esporte) pelo clima
 ├── clock.js            # Relógio de Brasília
-├── images/             # GIFs do Astrobot
-└── video/              # Vídeos de fundo por condição do tempo
+├── festa.js            # Modo festa: troca os GIFs por versões de festa
+├── images/             # GIFs do Astrobot (as versões em uso ficam no Supabase)
+└── video/              # Vídeos de fundo por condição do tempo (as versões em uso ficam no Supabase)
     ├── Céu Limpo/
     ├── Chuva leve/
     ├── Nublado/
