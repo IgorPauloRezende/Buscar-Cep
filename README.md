@@ -92,6 +92,11 @@ Buscar-Cep/
 ├── clock.js            # Relógio de Brasília
 ├── festa.js            # Modo festa: troca os GIFs por versões de festa
 ├── images/             # GIFs do Astrobot (as versões em uso ficam no Supabase)
+│   └── festa/          # GIFs do modo festa
+│       ├── festa1.gif
+│       ├── festa2.gif
+│       ├── festa3.gif
+│       └── festa4.gif
 └── video/              # Vídeos de fundo por condição do tempo (as versões em uso ficam no Supabase)
     ├── Céu Limpo/
     ├── Chuva leve/
